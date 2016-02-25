@@ -56,6 +56,8 @@ TadoAccessory.prototype.getServices = function() {
 }
 
 TadoAccessory.prototype.getCurrentTemperature = function(callback) {
+  accessory.log("Getting room temperature");
+
   var accessory = this;
 
   var options = {
@@ -74,7 +76,8 @@ TadoAccessory.prototype.getCurrentTemperature = function(callback) {
       //the whole response has been recieved, so we just print it out here
       response.on('end', function () {
         var obj = JSON.parse(str);
-                callback(obj.sensorDataPoints.insideTemperature.celsius);
+        accessory.log("Room temperature is " + obj.sensorDataPoints.insideTemperature.celsius + "ºc");
+        callback(obj.sensorDataPoints.insideTemperature.celsius);
       });
   };
 
@@ -82,6 +85,8 @@ TadoAccessory.prototype.getCurrentTemperature = function(callback) {
 }
 
 TadoAccessory.prototype.getTargetTemperature = function(callback) {
+accessory.log("Getting target temperature");
+
   var accessory = this;
 
   var options = {
@@ -100,6 +105,7 @@ TadoAccessory.prototype.getTargetTemperature = function(callback) {
       //the whole response has been recieved, so we just print it out here
       response.on('end', function () {
         var obj = JSON.parse(str);
+                accessory.log("Target temperature is " + obj.setting.temperature.celsius + "ºc");
                 callback(obj.setting.temperature.celsius);
       });
   };
@@ -108,11 +114,13 @@ TadoAccessory.prototype.getTargetTemperature = function(callback) {
 }
 
 TadoAccessory.prototype.getTemperatureDisplayUnits = function(callback) {
+  accessory.log("getting temperature display units = 0");
   callback(0); //0 for celsius
 }
 
 
 TadoAccessory.prototype.getCurrentRelativeHumidity = function(callback) {
+  accessory.log("Getting humidity");
   var accessory = this;
 
   var options = {
@@ -131,7 +139,8 @@ TadoAccessory.prototype.getCurrentRelativeHumidity = function(callback) {
       //the whole response has been recieved, so we just print it out here
       response.on('end', function () {
         var obj = JSON.parse(str);
-                callback(obj.sensorDataPoints.humidity.percentage);
+        accessory.log("Humidity is " + obj.sensorDataPoints.humidity.percentage + "%");
+        callback(obj.sensorDataPoints.humidity.percentage);
       });
   };
 
@@ -139,16 +148,19 @@ TadoAccessory.prototype.getCurrentRelativeHumidity = function(callback) {
 }
 
 TadoAccessory.prototype.getCoolingThresholdTemperature = function(callback) {
+  accessory.log("Cooling threshold temperature is 18");
   callback(18);
 }
 
 TadoAccessory.prototype.getHeatingThresholdTemperature = function(callback) {
+  accessory.log("Heating threshold temperature is 30");
   callback(30);
 }
 
 
 TadoAccessory.prototype.setCurrentHeatingCoolingState  = function(state, callback) {
   if (state == 0) {//off
+    accessory.log("Turn off");
     var accessory = this;
 
     body={
@@ -170,13 +182,15 @@ TadoAccessory.prototype.setCurrentHeatingCoolingState  = function(state, callbac
   };
 
   https.request(options, null).end(body);
+  } else {
+    accessory.log("Turn on");
   }
 
   callback(null); //not implemented for anything other than 'off'
 }
 
 TadoAccessory.prototype.setTargetTemperature = function(temp, callback) {
-
+ accessory.log("Setting temperature to " + temp + "º");
   var accessory = this;
 
   body = {
@@ -194,6 +208,8 @@ TadoAccessory.prototype.setTargetTemperature = function(temp, callback) {
       "type": "AIR_CONDITIONING"
     }
   };
+
+  body.setting.temperature.celsius=temp;
 
   body = JSON.stringify(body);
 
