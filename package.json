@@ -1,0 +1,23 @@
+{
+  "name": "homebridge-tado",
+  "version": "0.0.1",
+  "description": "Tado plugin for homebridge: https://github.com/nfarina/homebridge",
+  "license": "MIT",
+  "keywords": [
+    "homebridge-plugin"
+  ],
+  "engines": {
+    "node": ">=0.12.0",
+    "homebridge": ">=0.2.0"
+  },
+  "author": {
+    "name": "Chris Kuburlis"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ckuburlis/homebridge-tado.git"
+  },
+  "dependencies": {
+    "object-assign": "^4.0.1"
+  }
+}
