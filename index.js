@@ -19,6 +19,12 @@ function TadoAccessory(log, config) {
   this.homeID = config['homeID'];
   this.username = config['username'];
   this.password = config['password'];
+
+  accessory.log("Tado setup;");
+  accessory.log("username:" + this.username);
+  accessory.log("password:" + this.password);
+  accessory.log("homeID:" + this.homeID);
+
 }
 
 TadoAccessory.prototype.getServices = function() {
