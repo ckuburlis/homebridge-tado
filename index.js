@@ -84,7 +84,7 @@ TadoAccessory.prototype.getCurrentTemperature = function(callback) {
       response.on('end', function () {
         var obj = JSON.parse(str);
         accessory.log("Room temperature is " + obj.sensorDataPoints.insideTemperature.celsius + "ºc");
-        callback(obj.sensorDataPoints.insideTemperature.celsius);
+        callback(null, JSON.stringify(obj.sensorDataPoints.insideTemperature.celsius));
       });
   };
 
@@ -113,7 +113,7 @@ TadoAccessory.prototype.getTargetTemperature = function(callback) {
       response.on('end', function () {
         var obj = JSON.parse(str);
                 accessory.log("Target temperature is " + obj.setting.temperature.celsius + "ºc");
-                callback(obj.setting.temperature.celsius);
+                callback(null, JSON.stringify(obj.setting.temperature.celsius));
       });
   };
 
@@ -123,7 +123,7 @@ TadoAccessory.prototype.getTargetTemperature = function(callback) {
 TadoAccessory.prototype.getTemperatureDisplayUnits = function(callback) {
   var accessory = this;
   accessory.log("getting temperature display units = 0");
-  callback(0); //0 for celsius
+  callback(null, "0"); //0 for celsius
 }
 
 
@@ -148,7 +148,7 @@ TadoAccessory.prototype.getCurrentRelativeHumidity = function(callback) {
       response.on('end', function () {
         var obj = JSON.parse(str);
         accessory.log("Humidity is " + obj.sensorDataPoints.humidity.percentage + "%");
-        callback(obj.sensorDataPoints.humidity.percentage);
+        callback(null, JSON.stringify(obj.sensorDataPoints.humidity.percentage));
       });
   };
 
@@ -158,13 +158,13 @@ TadoAccessory.prototype.getCurrentRelativeHumidity = function(callback) {
 TadoAccessory.prototype.getCoolingThresholdTemperature = function(callback) {
   var accessory = this;
   accessory.log("Cooling threshold temperature is 18");
-  callback(18);
+  callback(null, "18");
 }
 
 TadoAccessory.prototype.getHeatingThresholdTemperature = function(callback) {
   var accessory = this;
   accessory.log("Heating threshold temperature is 30");
-  callback(30);
+  callback(null, "30");
 }
 
 
@@ -187,7 +187,7 @@ TadoAccessory.prototype.setCurrentHeatingCoolingState  = function(state, callbac
 
   var options = {
     host: 'my.tado.com',
-    path: '/api/v2/homes/' + accessory.homeID + '/zones/1/state?username=' + accessory.username + '&password=' + accessory.password,
+    path: '/api/v2/homes/' + accessory.homeID + '/zones/1/overlay?username=' + accessory.username + '&password=' + accessory.password,
     method: 'PUT'
   };
 
@@ -212,7 +212,7 @@ TadoAccessory.prototype.setTargetTemperature = function(temp, callback) {
       "fanSpeed": "AUTO",
       "mode": "COOL",
       "temperature": {
-        "celsius": 25
+        "celsius": 0
       },
       "power": "ON",
       "type": "AIR_CONDITIONING"
@@ -225,7 +225,7 @@ TadoAccessory.prototype.setTargetTemperature = function(temp, callback) {
 
   var options = {
     host: 'my.tado.com',
-    path: '/api/v2/homes/' + accessory.homeID + '/zones/1/state?username=' + accessory.username + '&password=' + accessory.password,
+    path: '/api/v2/homes/' + accessory.homeID + '/zones/1/overlay?username=' + accessory.username + '&password=' + accessory.password,
     method: 'PUT'
   };
 
