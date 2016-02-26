@@ -20,6 +20,7 @@ function TadoAccessory(log, config) {
   this.homeID = config['homeID'];
   this.username = config['username'];
   this.password = config['password'];
+  this.temp = 21;
 
   accessory.log("Tado setup;");
   accessory.log("username:" + this.username);
@@ -238,14 +239,17 @@ TadoAccessory.prototype.setCurrentHeatingCoolingState  = function(state, callbac
   https.request(options, null).end(body);
   } else {
     accessory.log("Turn on");
+    this.setTargetTemperature(this.temp, callback);
   }
 
-  callback(null); //not implemented for anything other than 'off'
+  callback(null);
 }
 
 TadoAccessory.prototype.setTargetTemperature = function(temp, callback) {
  var accessory = this;
  accessory.log("Setting temperature to " + temp + "º");
+
+ this.temp = temp;
 
   body = {
     "termination": {
@@ -263,7 +267,7 @@ TadoAccessory.prototype.setTargetTemperature = function(temp, callback) {
     }
   };
 
-  body.setting.temperature.celsius=temp;
+  body.setting.temperature.celsius = this.temp;
 
   body = JSON.stringify(body);
 
