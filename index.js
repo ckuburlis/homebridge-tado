@@ -46,15 +46,39 @@ TadoAccessory.prototype.getServices = function() {
 
   if (this.stateCommand) {
     thermostatService.getCharacteristic(Characteristic.CurrentTemperature)
+    .setProps({
+      maxValue: 100,
+      minValue: 0,
+      minStep: 0.01,
+    })
     .on('get', this.getCurrentTemperature.bind(this));
+
     thermostatService.getCharacteristic(Characteristic.TargetTemperature)
+    .setProps({
+      maxValue: 30,
+      minValue: 18,
+      minStep: 0.1
+    })
     .on('get', this.getTargetTemperature.bind(this));
+
     thermostatService.getCharacteristic(Characteristic.TemperatureDisplayUnits)
     .on('get', this.getTemperatureDisplayUnits.bind(this));
+
     thermostatService.getCharacteristic(Characteristic.CurrentRelativeHumidity)
+    .setProps({
+      maxValue: 100,
+      minValue: 0,
+      minStep: 0.01,
+    })
     .on('get', this.getCurrentRelativeHumidity.bind(this));
+
     thermostatService.getCharacteristic(Characteristic.CoolingThresholdTemperature)
-    .on('get', this.getCoolingThresholdTemperature.bind(this));
+    .setProps({
+      maxValue: 30,
+      minValue: 18,
+      minStep: 1
+    });
+
     thermostatService.getCharacteristic(Characteristic.CurrentHeatingCoolingState)
     .on('get', this.getCurrentHeatingCoolingState.bind(this));
   };
@@ -85,9 +109,9 @@ TadoAccessory.prototype.getCurrentHeatingCoolingState = function(callback) {
         var obj = JSON.parse(str);
         accessory.log("Current state is " + obj.setting.power);
         if (JSON.stringify(obj.setting.power).match("OFF")) {
-          callback(null, "0");
+          callback(null, Characteristic.TargetHeatingCoolingState.OFF);
         } else {
-          callback(null, "2");
+          callback(null, Characteristic.TargetHeatingCoolingState.COOL);
         }
       });
   };
@@ -156,7 +180,7 @@ TadoAccessory.prototype.getTargetTemperature = function(callback) {
 TadoAccessory.prototype.getTemperatureDisplayUnits = function(callback) {
   var accessory = this;
   accessory.log("getting temperature display units = 0");
-  callback(null, "0"); //0 for celsius
+  callback(null, Characteristic.TemperatureDisplayUnits.CELSIUS); //0 for celsius
 }
 
 
@@ -186,21 +210,6 @@ TadoAccessory.prototype.getCurrentRelativeHumidity = function(callback) {
   };
 
   https.request(options, responseFunction).end();
-}
-
-TadoAccessory.prototype.getCoolingThresholdTemperature = function(callback) {
-  var accessory = this;
-  accessory.log("Getting cooling threshold");
-
- var coolingThreshold = {
-  format: Characteristic.Formats.FLOAT,
-    unit: Characteristic.Units.CELSIUS,
-    maxValue: 30,
-    minValue: 18,
-    minStep: 1
-  };
-
-  callback(null, coolingThreshold);
 }
 
 TadoAccessory.prototype.setCurrentHeatingCoolingState  = function(state, callback) {
@@ -247,7 +256,7 @@ TadoAccessory.prototype.setTargetTemperature = function(temp, callback) {
       "fanSpeed": "AUTO",
       "mode": "COOL",
       "temperature": {
-        "celsius": 0
+        "celsius": 21
       },
       "power": "ON",
       "type": "AIR_CONDITIONING"
