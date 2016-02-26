@@ -55,10 +55,8 @@ TadoAccessory.prototype.getServices = function() {
     .on('get', this.getCurrentRelativeHumidity.bind(this));
     thermostatService.getCharacteristic(Characteristic.CoolingThresholdTemperature)
     .on('get', this.getCoolingThresholdTemperature.bind(this));
-    thermostatService.getCharacteristic(Characteristic.HeatingThresholdTemperature)
-    .on('get', this.getHeatingThresholdTemperature.bind(this));
     thermostatService.getCharacteristic(Characteristic.CurrentHeatingCoolingState)
-  .on('set', this.getCurrentHeatingCoolingState.bind(this));
+    .on('get', this.getCurrentHeatingCoolingState.bind(this));
   };
 
   return [thermostatService];
@@ -192,16 +190,18 @@ TadoAccessory.prototype.getCurrentRelativeHumidity = function(callback) {
 
 TadoAccessory.prototype.getCoolingThresholdTemperature = function(callback) {
   var accessory = this;
-  accessory.log("Cooling threshold temperature is 18");
-  callback(null, "18");
-}
+  accessory.log("Getting cooling threshold");
 
-TadoAccessory.prototype.getHeatingThresholdTemperature = function(callback) {
-  var accessory = this;
-  accessory.log("Heating threshold temperature is 30");
-  callback(null, "30");
-}
+ var coolingThreshold = {
+  format: Characteristic.Formats.FLOAT,
+    unit: Characteristic.Units.CELSIUS,
+    maxValue: 30,
+    minValue: 18,
+    minStep: 1
+  };
 
+  callback(null, coolingThreshold);
+}
 
 TadoAccessory.prototype.setCurrentHeatingCoolingState  = function(state, callback) {
   var accessory = this;
