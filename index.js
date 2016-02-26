@@ -40,7 +40,7 @@ TadoAccessory.prototype.getServices = function() {
   thermostatService.getCharacteristic(Characteristic.TargetTemperature)
   .on('set', this.setTargetTemperature.bind(this));
 
-  thermostatService.getCharacteristic(Characteristic.CurrentHeatingCoolingState)
+  thermostatService.getCharacteristic(Characteristic.TargetHeatingCoolingState)
   .on('set', this.setCurrentHeatingCoolingState.bind(this));
 
 
@@ -57,9 +57,44 @@ TadoAccessory.prototype.getServices = function() {
     .on('get', this.getCoolingThresholdTemperature.bind(this));
     thermostatService.getCharacteristic(Characteristic.HeatingThresholdTemperature)
     .on('get', this.getHeatingThresholdTemperature.bind(this));
+    thermostatService.getCharacteristic(Characteristic.CurrentHeatingCoolingState)
+  .on('set', this.getCurrentHeatingCoolingState.bind(this));
   };
 
   return [thermostatService];
+}
+
+TadoAccessory.prototype.getCurrentHeatingCoolingState = function(callback) {
+  var accessory = this;
+
+  accessory.log("Getting current state");
+
+  var options = {
+    host: 'my.tado.com',
+    path: '/api/v2/homes/' + accessory.homeID + '/zones/1/state?username=' + accessory.username + '&password=' + accessory.password
+  };
+
+  responseFunction = function(response) {
+    var str = '';
+
+  //another chunk of data has been recieved, so append it to `str`
+  response.on('data', function (chunk) {
+    str += chunk;
+  });
+
+      //the whole response has been recieved, so we just print it out here
+      response.on('end', function () {
+        var obj = JSON.parse(str);
+        accessory.log("Current state is " + obj.setting.power);
+        if (JSON.stringify(obj.setting.power).match("OFF")) {
+          callback(null, "0");
+        } else {
+          callback(null, "2");
+        }
+      });
+  };
+
+  https.request(options, responseFunction).end();
 }
 
 TadoAccessory.prototype.getCurrentTemperature = function(callback) {
