@@ -236,13 +236,14 @@ TadoAccessory.prototype.setCurrentHeatingCoolingState  = function(state, callbac
     method: 'PUT'
   };
 
+  callback(null);
+
   https.request(options, null).end(body);
   } else {
     accessory.log("Turn on");
     this.setTargetTemperature(this.temp, callback);
   }
 
-  callback(null);
 }
 
 TadoAccessory.prototype.setTargetTemperature = function(temp, callback) {
