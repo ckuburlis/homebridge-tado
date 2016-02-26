@@ -151,32 +151,11 @@ TadoAccessory.prototype.getCurrentTemperature = function(callback) {
 
 TadoAccessory.prototype.getTargetTemperature = function(callback) {
   var accessory = this;
+  accessory.log("Target temperature is" + this.temp + "ºC");
 
-  accessory.log("Getting target temperature");
-
-  var options = {
-    host: 'my.tado.com',
-    path: '/api/v2/homes/' + accessory.homeID + '/zones/1/state?username=' + accessory.username + '&password=' + accessory.password
-  };
-
-  responseFunction = function(response) {
-    var str = '';
-
-  //another chunk of data has been recieved, so append it to `str`
-  response.on('data', function (chunk) {
-    str += chunk;
-  });
-
-      //the whole response has been recieved, so we just print it out here
-      response.on('end', function () {
-        var obj = JSON.parse(str);
-                accessory.log("Target temperature is " + obj.setting.temperature.celsius + "ºc");
-                callback(null, obj.setting.temperature.celsius);
-      });
-  };
-
-  https.request(options, responseFunction).end();
+  callback(null, this.temp);
 }
+
 
 TadoAccessory.prototype.getTemperatureDisplayUnits = function(callback) {
   var accessory = this;
