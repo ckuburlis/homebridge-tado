@@ -1,7 +1,7 @@
 var Service;
 var Characteristic;
 
-var https = require('https')
+var https = require('https'),
     assign = require('object-assign');
 
  module.exports = function(homebridge) {
