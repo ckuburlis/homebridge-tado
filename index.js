@@ -45,7 +45,7 @@ TadoAccessory.prototype.getServices = function() {
   .on('set', this.setCurrentHeatingCoolingState.bind(this));
 
 
-  if (this.stateCommand) {
+  // if (this.stateCommand) {
     thermostatService.getCharacteristic(Characteristic.CurrentTemperature)
     .setProps({
       maxValue: 100,
@@ -82,7 +82,7 @@ TadoAccessory.prototype.getServices = function() {
 
     thermostatService.getCharacteristic(Characteristic.CurrentHeatingCoolingState)
     .on('get', this.getCurrentHeatingCoolingState.bind(this));
-  };
+  // };
 
   return [thermostatService];
 }
@@ -142,7 +142,7 @@ TadoAccessory.prototype.getCurrentTemperature = function(callback) {
       response.on('end', function () {
         var obj = JSON.parse(str);
         accessory.log("Room temperature is " + obj.sensorDataPoints.insideTemperature.celsius + "ºc");
-        callback(null, JSON.stringify(obj.sensorDataPoints.insideTemperature.celsius));
+        callback(null, obj.sensorDataPoints.insideTemperature.celsius);
       });
   };
 
@@ -171,7 +171,7 @@ TadoAccessory.prototype.getTargetTemperature = function(callback) {
       response.on('end', function () {
         var obj = JSON.parse(str);
                 accessory.log("Target temperature is " + obj.setting.temperature.celsius + "ºc");
-                callback(null, JSON.stringify(obj.setting.temperature.celsius));
+                callback(null, obj.setting.temperature.celsius);
       });
   };
 
@@ -206,7 +206,7 @@ TadoAccessory.prototype.getCurrentRelativeHumidity = function(callback) {
       response.on('end', function () {
         var obj = JSON.parse(str);
         accessory.log("Humidity is " + obj.sensorDataPoints.humidity.percentage + "%");
-        callback(null, JSON.stringify(obj.sensorDataPoints.humidity.percentage));
+        callback(null, obj.sensorDataPoints.humidity.percentage);
       });
   };
 
