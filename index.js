@@ -12,6 +12,7 @@ var https = require('https'),
 
 
 function TadoAccessory(log, config) {
+  var accessory = this;
   this.log = log;
   this.service = 'AirCon';
 
@@ -62,9 +63,9 @@ TadoAccessory.prototype.getServices = function() {
 }
 
 TadoAccessory.prototype.getCurrentTemperature = function(callback) {
-  accessory.log("Getting room temperature");
-
   var accessory = this;
+
+  accessory.log("Getting room temperature");
 
   var options = {
     host: 'my.tado.com',
@@ -91,9 +92,9 @@ TadoAccessory.prototype.getCurrentTemperature = function(callback) {
 }
 
 TadoAccessory.prototype.getTargetTemperature = function(callback) {
-accessory.log("Getting target temperature");
-
   var accessory = this;
+
+  accessory.log("Getting target temperature");
 
   var options = {
     host: 'my.tado.com',
@@ -120,14 +121,15 @@ accessory.log("Getting target temperature");
 }
 
 TadoAccessory.prototype.getTemperatureDisplayUnits = function(callback) {
+  var accessory = this;
   accessory.log("getting temperature display units = 0");
   callback(0); //0 for celsius
 }
 
 
 TadoAccessory.prototype.getCurrentRelativeHumidity = function(callback) {
-  accessory.log("Getting humidity");
   var accessory = this;
+  accessory.log("Getting humidity");
 
   var options = {
     host: 'my.tado.com',
@@ -154,20 +156,22 @@ TadoAccessory.prototype.getCurrentRelativeHumidity = function(callback) {
 }
 
 TadoAccessory.prototype.getCoolingThresholdTemperature = function(callback) {
+  var accessory = this;
   accessory.log("Cooling threshold temperature is 18");
   callback(18);
 }
 
 TadoAccessory.prototype.getHeatingThresholdTemperature = function(callback) {
+  var accessory = this;
   accessory.log("Heating threshold temperature is 30");
   callback(30);
 }
 
 
 TadoAccessory.prototype.setCurrentHeatingCoolingState  = function(state, callback) {
+  var accessory = this;
   if (state == 0) {//off
     accessory.log("Turn off");
-    var accessory = this;
 
     body={
       "termination": {
@@ -196,8 +200,8 @@ TadoAccessory.prototype.setCurrentHeatingCoolingState  = function(state, callbac
 }
 
 TadoAccessory.prototype.setTargetTemperature = function(temp, callback) {
+ var accessory = this;
  accessory.log("Setting temperature to " + temp + "º");
-  var accessory = this;
 
   body = {
     "termination": {
