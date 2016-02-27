@@ -36,7 +36,7 @@ TadoAccessory.prototype.getServices = function() {
     thermostatService.getCharacteristic(Characteristic.TargetTemperature)
         .setProps({
             maxValue: 30,
-            minValue: 18,
+            rinValue: 18,
             minStep: 1
         })
 
@@ -58,7 +58,7 @@ TadoAccessory.prototype.getServices = function() {
         .setProps({
             maxValue: 30,
             minValue: 18,
-            minStep: 0.1
+            minStep: 1
         })
         .on('get', this.getTargetTemperature.bind(this));
 
@@ -188,6 +188,8 @@ TadoAccessory.prototype.getTargetHeatingCoolingState = function(callback) {
             }
         });
     };
+
+    https.request(options, responseFunction).end();
 };
 
 TadoAccessory.prototype.getTemperatureDisplayUnits = function(callback) {
