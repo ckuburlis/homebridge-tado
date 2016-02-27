@@ -21,12 +21,7 @@ function TadoAccessory(log, config) {
   this.username = config['username'];
   this.password = config['password'];
   this.temp = 21;
-
-  accessory.log("Tado setup;");
-  accessory.log("username:" + this.username);
-  accessory.log("password:" + this.password);
-  accessory.log("homeID:" + this.homeID);
-
+  
 }
 
 TadoAccessory.prototype.getServices = function() {
@@ -93,13 +88,12 @@ TadoAccessory.prototype.getServices = function() {
 }
 
 TadoAccessory.prototype.getCurrentHeatingCoolingState = function(callback) {
-  var accessory = this;
-
-  accessory.log("Getting current state");
+  
+  this.log("Getting current state");
 
   var options = {
     host: 'my.tado.com',
-    path: '/api/v2/homes/' + accessory.homeID + '/zones/1/state?username=' + accessory.username + '&password=' + accessory.password
+    path: '/api/v2/homes/' + this.homeID + '/zones/1/state?username=' + this.username + '&password=' + this.password
   };
 
   responseFunction = function(response) {
@@ -113,7 +107,7 @@ TadoAccessory.prototype.getCurrentHeatingCoolingState = function(callback) {
       //the whole response has been recieved, so we just print it out here
       response.on('end', function () {
         var obj = JSON.parse(str);
-        accessory.log("Current state is " + obj.setting.power);
+        this.log("Current state is " + obj.setting.power);
         if (JSON.stringify(obj.setting.power).match("OFF")) {
           callback(null, Characteristic.TargetHeatingCoolingState.OFF);
         } else {
@@ -126,13 +120,12 @@ TadoAccessory.prototype.getCurrentHeatingCoolingState = function(callback) {
 }
 
 TadoAccessory.prototype.getCurrentTemperature = function(callback) {
-  var accessory = this;
 
-  accessory.log("Getting room temperature");
+  this.log("Getting room temperature");
 
   var options = {
     host: 'my.tado.com',
-    path: '/api/v2/homes/' + accessory.homeID + '/zones/1/state?username=' + accessory.username + '&password=' + accessory.password
+    path: '/api/v2/homes/' + this.homeID + '/zones/1/state?username=' + this.username + '&password=' + this.password
   };
 
   responseFunction = function(response) {
@@ -146,7 +139,7 @@ TadoAccessory.prototype.getCurrentTemperature = function(callback) {
       //the whole response has been recieved, so we just print it out here
       response.on('end', function () {
         var obj = JSON.parse(str);
-        accessory.log("Room temperature is " + obj.sensorDataPoints.insideTemperature.celsius + "ºc");
+        this.log("Room temperature is " + obj.sensorDataPoints.insideTemperature.celsius + "ºc");
         callback(null, obj.sensorDataPoints.insideTemperature.celsius);
       });
   };
@@ -155,27 +148,27 @@ TadoAccessory.prototype.getCurrentTemperature = function(callback) {
 }
 
 TadoAccessory.prototype.getTargetTemperature = function(callback) {
-  var accessory = this;
-  accessory.log("Target temperature is " + this.temp + "ºC");
+
+  this.log("Target temperature is " + this.temp + "ºC");
 
   callback(null, this.temp);
 }
 
 
 TadoAccessory.prototype.getTemperatureDisplayUnits = function(callback) {
-  var accessory = this;
-  accessory.log("getting temperature display units = 0");
+
+  this.log("getting temperature display units = 0");
   callback(null, Characteristic.TemperatureDisplayUnits.CELSIUS); //0 for celsius
 }
 
 
 TadoAccessory.prototype.getCurrentRelativeHumidity = function(callback) {
-  var accessory = this;
-  accessory.log("Getting humidity");
+
+  this.log("Getting humidity");
 
   var options = {
     host: 'my.tado.com',
-    path: '/api/v2/homes/' + accessory.homeID + '/zones/1/state?username=' + accessory.username + '&password=' + accessory.password
+    path: '/api/v2/homes/' + this.homeID + '/zones/1/state?username=' + this.username + '&password=' + this.password
   };
 
   responseFunction = function(response) {
@@ -189,7 +182,7 @@ TadoAccessory.prototype.getCurrentRelativeHumidity = function(callback) {
       //the whole response has been recieved, so we just print it out here
       response.on('end', function () {
         var obj = JSON.parse(str);
-        accessory.log("Humidity is " + obj.sensorDataPoints.humidity.percentage + "%");
+        this.log("Humidity is " + obj.sensorDataPoints.humidity.percentage + "%");
         callback(null, obj.sensorDataPoints.humidity.percentage);
       });
   };
@@ -198,9 +191,9 @@ TadoAccessory.prototype.getCurrentRelativeHumidity = function(callback) {
 }
 
 TadoAccessory.prototype.setCurrentHeatingCoolingState  = function(state, callback) {
-  var accessory = this;
+
   if (state == 0) {//off
-    accessory.log("Turn off");
+    this.log("Turn off");
 
     body={
       "termination": {
@@ -216,7 +209,7 @@ TadoAccessory.prototype.setCurrentHeatingCoolingState  = function(state, callbac
 
   var options = {
     host: 'my.tado.com',
-    path: '/api/v2/homes/' + accessory.homeID + '/zones/1/overlay?username=' + accessory.username + '&password=' + accessory.password,
+    path: '/api/v2/homes/' + this.homeID + '/zones/1/overlay?username=' + this.username + '&password=' + this.password,
     method: 'PUT'
   };
 
@@ -224,15 +217,15 @@ TadoAccessory.prototype.setCurrentHeatingCoolingState  = function(state, callbac
 
   https.request(options, null).end(body);
   } else {
-    accessory.log("Turn on");
+    this.log("Turn on");
     this.setTargetTemperature(this.temp, callback);
   }
 
 }
 
 TadoAccessory.prototype.setTargetTemperature = function(temp, callback) {
- var accessory = this;
- accessory.log("Setting temperature to " + temp + "º");
+
+ this.log("Setting temperature to " + temp + "º");
 
  this.temp = temp;
 
@@ -258,7 +251,7 @@ TadoAccessory.prototype.setTargetTemperature = function(temp, callback) {
 
   var options = {
     host: 'my.tado.com',
-    path: '/api/v2/homes/' + accessory.homeID + '/zones/1/overlay?username=' + accessory.username + '&password=' + accessory.password,
+    path: '/api/v2/homes/' + this.homeID + '/zones/1/overlay?username=' + this.username + '&password=' + this.password,
     method: 'PUT'
   };
 
