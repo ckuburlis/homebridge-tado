@@ -1,8 +1,6 @@
 homebridge-tado
 ==============
 
-VERY MUCH IN ALPHA STAGES
-
 Supports triggering Tado Smart AC from the HomeBridge platform.
 
 Complies with ```Service.Thermostat```
