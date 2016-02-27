@@ -39,6 +39,11 @@ TadoAccessory.prototype.getServices = function() {
   .setCharacteristic(Characteristic.SerialNumber, 'Tado Serial Number');
 
   thermostatService.getCharacteristic(Characteristic.TargetTemperature)
+  .setProps({
+    maxValue: 30,
+    minValue: 18,
+    minStep: 1
+  })
   .on('set', this.setTargetTemperature.bind(this));
 
   thermostatService.getCharacteristic(Characteristic.TargetHeatingCoolingState)
@@ -50,7 +55,7 @@ TadoAccessory.prototype.getServices = function() {
     .setProps({
       maxValue: 100,
       minValue: 0,
-      minStep: 0.01,
+      minStep: 0.01
     })
     .on('get', this.getCurrentTemperature.bind(this));
 
@@ -69,7 +74,7 @@ TadoAccessory.prototype.getServices = function() {
     .setProps({
       maxValue: 100,
       minValue: 0,
-      minStep: 0.01,
+      minStep: 0.01
     })
     .on('get', this.getCurrentRelativeHumidity.bind(this));
 
@@ -151,7 +156,7 @@ TadoAccessory.prototype.getCurrentTemperature = function(callback) {
 
 TadoAccessory.prototype.getTargetTemperature = function(callback) {
   var accessory = this;
-  accessory.log("Target temperature is" + this.temp + "ºC");
+  accessory.log("Target temperature is " + this.temp + "ºC");
 
   callback(null, this.temp);
 }
