@@ -1,7 +1,9 @@
-homebridge-tado
-==============
+homebridge-tado FOR HEATING
+===========================
 
-Supports triggering Tado Smart AC from the HomeBridge platform.
+Supports triggering Tado Smart HEATING from the HomeBridge platform.
+
+This is a fork from original ckuburlis/homebridge-tado which is for AirCon - this fork is adapted for Tado Heating
 
 Complies with ```Service.Thermostat```
 
@@ -10,6 +12,7 @@ Complies with ```Service.Thermostat```
 1. Install homebridge using: `npm install -g homebridge`
 2. Install this plugin using: `npm install -g homebridge-tado`
 3. Update your configuration file. See `sample-config.json` in this repository for a sample.
+MAKE SURE config.json is placed in ~/.homebridge (took me ages to work this out :( )
 
 ## Configuration
 
