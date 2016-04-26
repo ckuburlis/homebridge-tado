@@ -20,7 +20,7 @@ Complies with ```Service.Thermostat``` with an additional Characteristic.On
 ## Installation
 
 1. Install homebridge using: `npm install -g homebridge`
-2. Install this plugin using: `npm install -g homebridge-tadoHeating`  (NPM TO BE SET UP - USE THIS GIT IN MEANTIME)
+2. Install this plugin using: `npm install -g homebridge-tadoheating` 
 3. Create/update your configuration file. See `sample-config.json` in this repository for a sample.
 4. MAKE SURE your config.json is placed in ~/.homebridge (took me ages to work this out :( )
 

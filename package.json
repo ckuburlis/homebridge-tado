@@ -17,5 +17,10 @@
   "bugs": {
     "url": "https://github.com/peteakalad/homebridge-tadoHeating/issues"
   },
-  "homepage": "https://github.com/peteakalad/homebridge-tadoHeating#readme"
+  "homepage": "https://github.com/peteakalad/homebridge-tadoHeating#readme",
+  "keywords": [
+    "homebridge",
+    "tado",
+    "heating"
+  ]
 }
