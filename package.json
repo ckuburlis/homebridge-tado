@@ -1,29 +1,21 @@
 {
-  "name": "homebridge-tado",
+  "name": "homebridge-tadoheating",
   "version": "0.1.0",
-  "description": "Tado plugin for homebridge: https://github.com/nfarina/homebridge",
-  "license": "MIT",
-  "keywords": [
-    "homebridge-plugin"
-  ],
-  "engines": {
-    "node": ">=0.12.0",
-    "homebridge": ">=0.2.0"
-  },
-  "author": "Chris Kuburlis",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/ckuburlis/homebridge-tado.git"
-  },
-  "dependencies": {
-    "object-assign": "^4.0.1"
-  },
-  "bugs": {
-    "url": "https://github.com/ckuburlis/homebridge-tado/issues"
-  },
-  "homepage": "https://github.com/ckuburlis/homebridge-tado#readme",
+  "description": "homebridge-tado ==============",
   "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/peteakalad/homebridge-tadoHeating.git"
+  },
+  "author": "Peter Stevenson <peterstevenson@ihut.co.uk> (https://github.com/peteakalad/homebridge-tadoHeating)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/peteakalad/homebridge-tadoHeating/issues"
+  },
+  "homepage": "https://github.com/peteakalad/homebridge-tadoHeating#readme"
 }
