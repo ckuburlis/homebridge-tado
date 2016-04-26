@@ -144,7 +144,7 @@ TadoAccessory.prototype.getCurrentTemperature = function(callback) {
         //the whole response has been recieved, so we just print it out here
         response.on('end', function() {
             var obj = JSON.parse(str);
-            accessory.log("Room temperature is " + obj.sensorDataPoints.insideTemperature.celsius + "Âºc");
+            accessory.log("Room temperature is " + obj.sensorDataPoints.insideTemperature.celsius + "ºC");
             callback(null, obj.sensorDataPoints.insideTemperature.celsius);
         });
     };
@@ -154,7 +154,7 @@ TadoAccessory.prototype.getCurrentTemperature = function(callback) {
 
 TadoAccessory.prototype.getTargetTemperature = function(callback) {
     var accessory = this;
-    accessory.log("Target temperature is " + this.temp + "ÂºC");
+    accessory.log("Target temperature is " + this.temp + "ºC");
 
     callback(null, this.temp);
 }
@@ -264,7 +264,7 @@ TadoAccessory.prototype.setTargetHeatingCoolingState = function(state, callback)
 
 TadoAccessory.prototype.setTargetTemperature = function(temp, callback) {
     var accessory = this;
-    accessory.log("Setting temperature to " + temp + "Âº");
+    accessory.log("Setting temperature to " + temp + "º");
 
     this.temp = temp;
 
