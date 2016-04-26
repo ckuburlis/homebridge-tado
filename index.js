@@ -45,6 +45,11 @@ TadoAccessory.prototype.getServices = function() {
     thermostatService.getCharacteristic(Characteristic.TargetHeatingCoolingState)
         .on('set', this.setTargetHeatingCoolingState.bind(this));
 
+    thermostatService.addCharacteristic(Characteristic.On);
+
+    thermostatService.getCharacteristic(Characteristic.On)
+       .on('set', this.setTargetHeatingCoolingState.bind(this));
+
     // if (this.stateCommand) {
     thermostatService.getCharacteristic(Characteristic.CurrentTemperature)
         .setProps({
@@ -144,7 +149,7 @@ TadoAccessory.prototype.getCurrentTemperature = function(callback) {
         //the whole response has been recieved, so we just print it out here
         response.on('end', function() {
             var obj = JSON.parse(str);
-            accessory.log("Room temperature is " + obj.sensorDataPoints.insideTemperature.celsius + "ºC");
+            accessory.log("Room temperature is " + obj.sensorDataPoints.insideTemperature.celsius + "ºc");
             callback(null, obj.sensorDataPoints.insideTemperature.celsius);
         });
     };
@@ -256,8 +261,21 @@ TadoAccessory.prototype.setTargetHeatingCoolingState = function(state, callback)
 
         https.request(options, null).end(body);
     } else {
+        //This will reset back to automatic Tado mode and remove
+        //all overlays (aka manual overrides)
         accessory.log("Turn on");
-        this.setTargetTemperature(this.temp, callback);
+        // this.setTargetTemperature(this.temp, callback);
+        body = {};
+        body = JSON.stringify(body);
+        var options = {
+            host: 'my.tado.com',
+            path: '/api/v2/homes/' + accessory.homeID + '/zones/1/overlay?username=' + accessory.username + '&password=' + accessory.password,
+            method: 'DELETE'
+        };
+
+        callback(null);
+
+        https.request(options, null).end(body);
     }
 
 }
