@@ -1,7 +1,7 @@
 {
   "name": "homebridge-tadoheating",
   "version": "0.1.0",
-  "description": "homebridge-tado ==============",
+  "description": "homebridge-tadoheating"
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {},
