@@ -1,9 +1,19 @@
-homebridge-tado FOR HEATING
-===========================
+homebridge-tadoHeating
+======================
 
-Supports triggering Tado Smart HEATING from the HomeBridge platform.
+Supports triggering Tado Smart Heating from the HomeBridge platform.
 
 This is a fork from original ckuburlis/homebridge-tado which is for AirCon - this fork is adapted for Tado Heating
+
+This fork has also been improved to add the ability to turn the heating on and off.
+
+For reference supports the following commands with Siri:
+"Whats the room temperature", answers "The current temperature is at 21ºc" after obtaining temperature from tado
+"Set the temperature to 22º", answers "Ok X, I've set the Tado to about 22ºC" after setting a manual override temperature on tado to 22º*
+"Turn off the heating", answers "Ok, the Tado is off" after setting a manual override to turn off the heating.
+"Turn on the heating", answer "Ok, the Tado is on" after removing the manual overrides so heating will turn on. This basically reverts the tado back to its normal automatic mode.
+
+* All overrides are set with the "Until next mode change" option, so the tado settings will revert back to their normal settings.
 
 Complies with ```Service.Thermostat```
 
