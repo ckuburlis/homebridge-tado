@@ -42,6 +42,11 @@ TadoAccessory.prototype.getServices = function() {
 
     .on('set', this.setTargetTemperature.bind(this));
 
+    thermostatService.addCharacteristic(Characteristic.On);
+
+    thermostatService.getCharacteristic(Characteristic.On)
+    .on('set', this.setTargetHeatingCoolingState.bind(this));
+
     thermostatService.getCharacteristic(Characteristic.TargetHeatingCoolingState)
         .on('set', this.setTargetHeatingCoolingState.bind(this));
 
