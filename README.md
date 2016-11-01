@@ -1,15 +1,28 @@
-homebridge-tado
-==============
+homebridge-tadoHeating
+======================
 
-Supports triggering Tado Smart AC from the HomeBridge platform.
+Supports triggering Tado Smart Heating from the HomeBridge platform.
 
-Complies with ```Service.Thermostat```
+This is a fork from original ckuburlis/homebridge-tado which is for AirCon - this fork is adapted for Tado Heating
+
+This fork has also been improved to add the ability to turn the heating on and off.
+
+For reference supports the following commands with Siri:
+* "Whats the room temperature", answers "The current temperature is at 21ºc" after obtaining temperature from tado
+* "Set the temperature to 22º", answers "Ok X, I've set the Tado to about 22ºC" after setting a manual override temperature on tado to 22º
+* "Turn off the heating", answers "Ok, the Tado is off" after setting a manual override to turn off the heating.
+* "Turn on the heating", answer "Ok, the Tado is on" after removing any manual overrides so heating will turn on. This will also always revert the tado back to its normal automatic mode.
+
+\* All manual overrides are set with the "Until next mode change" option, so the tado settings will revert back to their normal automatic settings on a mode change (get up/leaving home/going to bed).
+
+Complies with ```Service.Thermostat``` with an additional Characteristic.On
 
 ## Installation
 
 1. Install homebridge using: `npm install -g homebridge`
-2. Install this plugin using: `npm install -g homebridge-tado`
-3. Update your configuration file. See `sample-config.json` in this repository for a sample.
+2. Install this plugin using: `npm install -g homebridge-tadoheating` 
+3. Create/update your configuration file. See `sample-config.json` in this repository for a sample.
+4. MAKE SURE your config.json is placed in ~/.homebridge (took me ages to work this out :( )
 
 ## Configuration
 

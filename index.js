@@ -14,7 +14,7 @@ module.exports = function(homebridge) {
 function TadoAccessory(log, config) {
     var accessory = this;
     this.log = log;
-    this.service = 'AirCon';
+    this.service = 'Heating';
 
     this.name = config['name'];
     this.homeID = config['homeID'];
@@ -30,13 +30,13 @@ TadoAccessory.prototype.getServices = function() {
 
     informationService
         .setCharacteristic(Characteristic.Manufacturer, 'Tado GmbH')
-        .setCharacteristic(Characteristic.Model, 'Tado Smart AC Control')
+        .setCharacteristic(Characteristic.Model, 'Tado Heating Control')
         .setCharacteristic(Characteristic.SerialNumber, 'Tado Serial Number');
 
     thermostatService.getCharacteristic(Characteristic.TargetTemperature)
         .setProps({
             maxValue: 30,
-            rinValue: 18,
+            minValue: 18,
             minStep: 1
         })
 
@@ -49,6 +49,11 @@ TadoAccessory.prototype.getServices = function() {
 
     thermostatService.getCharacteristic(Characteristic.TargetHeatingCoolingState)
         .on('set', this.setTargetHeatingCoolingState.bind(this));
+
+    thermostatService.addCharacteristic(Characteristic.On);
+
+    thermostatService.getCharacteristic(Characteristic.On)
+       .on('set', this.setTargetHeatingCoolingState.bind(this));
 
     // if (this.stateCommand) {
     thermostatService.getCharacteristic(Characteristic.CurrentTemperature)
@@ -120,7 +125,7 @@ TadoAccessory.prototype.getCurrentHeatingCoolingState = function(callback) {
             if (JSON.stringify(obj.setting.power).match("OFF")) {
                 callback(null, Characteristic.CurrentHeatingCoolingState.OFF);
             } else {
-                callback(null, Characteristic.CurrentHeatingCoolingState.COOL);
+                callback(null, Characteristic.CurrentHeatingCoolingState.HEAT);
             }
         });
     };
@@ -189,7 +194,7 @@ TadoAccessory.prototype.getTargetHeatingCoolingState = function(callback) {
             if (JSON.stringify(obj.setting.power).match("OFF")) {
                 callback(null, Characteristic.TargetHeatingCoolingState.OFF);
             } else {
-                callback(null, Characteristic.TargetHeatingCoolingState.COOL);
+                callback(null, Characteristic.TargetHeatingCoolingState.HEAT);
             }
         });
     };
@@ -237,15 +242,17 @@ TadoAccessory.prototype.setTargetHeatingCoolingState = function(state, callback)
     if (state == 0) { //off
         accessory.log("Turn off");
 
-        body = {
-            "termination": {
-                "type": "MANUAL"
-            },
-            "setting": {
-                "power": "OFF",
-                "type": "AIR_CONDITIONING"
-            }
-        };
+        //This sets to manual mode OFF until next mode change
+        //probably different types could turn off permantently if required
+        body = { 
+                 "setting": {
+                   "type": "HEATING",
+                   "power": "OFF"
+                 },
+                 "termination": {
+                   "type": "TADO_MODE"
+                 }
+               };
 
         body = JSON.stringify(body);
 
@@ -259,8 +266,21 @@ TadoAccessory.prototype.setTargetHeatingCoolingState = function(state, callback)
 
         https.request(options, null).end(body);
     } else {
+        //This will reset back to automatic Tado mode and remove
+        //all overlays (aka manual overrides)
         accessory.log("Turn on");
-        this.setTargetTemperature(this.temp, callback);
+        // this.setTargetTemperature(this.temp, callback);
+        body = {};
+        body = JSON.stringify(body);
+        var options = {
+            host: 'my.tado.com',
+            path: '/api/v2/homes/' + accessory.homeID + '/zones/1/overlay?username=' + accessory.username + '&password=' + accessory.password,
+            method: 'DELETE'
+        };
+
+        callback(null);
+
+        https.request(options, null).end(body);
     }
 
 }
@@ -272,21 +292,18 @@ TadoAccessory.prototype.setTargetTemperature = function(temp, callback) {
     this.temp = temp;
 
     body = {
-        "termination": {
-            "type": "MANUAL"
-        },
-        "setting": {
-            "swing": "ON",
-            "fanSpeed": "AUTO",
-            "mode": "COOL",
-            "temperature": {
+              "setting": {
+              "type": "HEATING",
+              "power": "ON",
+              "temperature": {
                 "celsius": 21
-            },
-            "power": "ON",
-            "type": "AIR_CONDITIONING"
-        }
-    };
-
+              }
+             },
+             "termination": {
+             "type": "TADO_MODE"
+            }
+           };
+     
     body.setting.temperature.celsius = this.temp;
 
     body = JSON.stringify(body);
