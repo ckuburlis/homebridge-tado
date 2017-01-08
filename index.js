@@ -36,7 +36,7 @@ TadoAccessory.prototype.getServices = function() {
     thermostatService.getCharacteristic(Characteristic.TargetTemperature)
         .setProps({
             maxValue: 30,
-            rinValue: 18,
+            minValue: 18,
             minStep: 1
         })
 
