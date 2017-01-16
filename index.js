@@ -20,7 +20,9 @@ function TadoAccessory(log, config) {
     this.homeID = config['homeID'];
     this.username = config['username'];
     this.password = config['password'];
-    this.temp = 21;
+    this.maxValue = config['maxValue'];
+    this.minValue = config['minValue'];
+    this.temp = 25;
 
 }
 
@@ -35,8 +37,8 @@ TadoAccessory.prototype.getServices = function() {
 
     thermostatService.getCharacteristic(Characteristic.TargetTemperature)
         .setProps({
-            maxValue: 30,
-            minValue: 18,
+            maxValue: accessory.maxValue,
+            minValue: accessory.minValue,
             minStep: 1
         })
 
@@ -61,8 +63,8 @@ TadoAccessory.prototype.getServices = function() {
 
     thermostatService.getCharacteristic(Characteristic.TargetTemperature)
         .setProps({
-            maxValue: 30,
-            minValue: 18,
+            maxValue: accessory.maxValue,
+            minValue: accessory.minValue,
             minStep: 1
         })
         .on('get', this.getTargetTemperature.bind(this));
@@ -83,8 +85,8 @@ TadoAccessory.prototype.getServices = function() {
 
     thermostatService.getCharacteristic(Characteristic.CoolingThresholdTemperature)
         .setProps({
-            maxValue: 30,
-            minValue: 18,
+            maxValue: accessory.maxValue,
+            minValue: accessory.minValue,
             minStep: 1
         });
 
@@ -280,7 +282,7 @@ TadoAccessory.prototype.setTargetTemperature = function(temp, callback) {
             "fanSpeed": "AUTO",
             "mode": "COOL",
             "temperature": {
-                "celsius": 21
+                "celsius": 25
             },
             "power": "ON",
             "type": "AIR_CONDITIONING"
