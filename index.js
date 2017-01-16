@@ -27,6 +27,7 @@ function TadoAccessory(log, config) {
 }
 
 TadoAccessory.prototype.getServices = function() {
+    var accessory = this;
     var informationService = new Service.AccessoryInformation();
     var thermostatService = new Service.Thermostat(this.name);
 
