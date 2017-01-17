@@ -225,7 +225,7 @@ TadoAccessory.prototype.setTargetHeatingCoolingState = function(state, callback)
     var accessory = this;
 
     switch (state) {
-        case (Characteristic.TargetHeatingCoolingState.OFF || false):
+        case Characteristic.TargetHeatingCoolingState.OFF:
             accessory.log("Set target state to off");
  
             var body = {
@@ -262,6 +262,23 @@ TadoAccessory.prototype.setTargetHeatingCoolingState = function(state, callback)
             accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.AUTO);  
             accessory.service.setCharacteristic(Characteristic.TargetTemperature, null); 
             break;
+            
+        case false:
+            accessory.log("Set target state to off");
+ 
+            var body = {
+                "termination": {
+                    "type": "MANUAL"
+                },
+                "setting": {
+                    "power": "OFF",
+                    "type": "AIR_CONDITIONING"
+                }
+            };
+            accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.OFF);        
+            accessory._setOverlay(body);
+            break;
+            
         case true:
             var lastMode = accessory.storage.getItem(accessory.name);
             switch (lastMode)  {
