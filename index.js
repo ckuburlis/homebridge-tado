@@ -29,7 +29,7 @@ function TadoAccessory(log, config) {
     this.useFanSpeed = config['useFanSpeed'] || false; // can get values: "LOW", "MIDDLE", "HIGH" or "AUTO" depend on your aircon 
     this.zoneMode = "UNKNOWN";
     this.targetTemp = 25;
-    this.lastMode = accessory.storage.getItem(accessory.name);
+    this.lastMode = this.storage.getItem(accessory.name);
     
     //Init storage
       this.storage.initSync({
