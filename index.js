@@ -348,24 +348,24 @@ TadoAccessory.prototype.getCurrentRelativeHumidity = function(callback) {
 
 
 TadoAccessory.prototype._getCurrentStateResponse = function(callback) {
-    accessory = this;
+    var accessory = this;
     accessory.log("Getting target state");
 
     var options = {
         host: 'my.tado.com',
-        path: '/api/v2/homes/' + accessory.homeID + '/zones/' + accessory.zone + '/state?username=' + accessory.username + '&password=' + accessory.password
+        path: '/api/v2/homes/' + accessory.homeID + '/zones/1/state?username=' + accessory.username + '&password=' + accessory.password
     };
 
     https.request(options, callback).end();
 }
 
 TadoAccessory.prototype._setOverlay = function(body) {
-    accessory = this;
+    var accessory = this;
     accessory.log("Setting new overlay");
     
     var options = {
         host: 'my.tado.com',
-        path: '/api/v2/homes/' + accessory.homeID + '/zones/' + accessory.zone + '/overlay?username=' + accessory.username + '&password=' + accessory.password,
+        path: '/api/v2/homes/' + accessory.homeID + '/zones/1/overlay?username=' + accessory.username + '&password=' + accessory.password,
         method: body == null ? 'DELETE' : 'PUT'
     };
     
