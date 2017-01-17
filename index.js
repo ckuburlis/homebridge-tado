@@ -377,7 +377,7 @@ TadoAccessory.prototype._setOverlay = function(body) {
 }
 
 TadoAccessory.prototype._setTargetCoolingOverlay = function() {
-    body = {
+    var body = {
         "termination": {
             "type": "MANUAL"
         },
@@ -385,15 +385,16 @@ TadoAccessory.prototype._setTargetCoolingOverlay = function() {
             "power": "ON",
             "type": "AIR_CONDITIONING",
             "fanSpeed": "AUTO",
+            "swing": "OFF",
             "mode": "COOL",
             "temperature": {}
         }
     };
 
     if (this.useFahrenheit) {
-        body.setting.temperature.fahrenheit = this.targetTemp;
+        body.setting.temperature = '{"fahrenheit": ' + this.targetTemp + '}';
     } else {
-        body.setting.temperature.celsius = this.targetTemp;
+        body.setting.temperature = '"celsius": ' + this.targetTemp + '}';
     }
 
     this._setOverlay(body);
@@ -407,6 +408,7 @@ TadoAccessory.prototype._setTargetHeatingOverlay = function() {
         "setting": {
             "power": "ON",
             "type": "AIR_CONDITIONING",
+            "swing": "OFF",
             "fanSpeed": "AUTO",
             "mode": "HEAT",
             "temperature": {}
@@ -414,9 +416,9 @@ TadoAccessory.prototype._setTargetHeatingOverlay = function() {
     };
 
     if (this.useFahrenheit) {
-        body.setting.temperature.fahrenheit = this.targetTemp;
+        body.setting.temperature = '{"fahrenheit": ' + this.targetTemp + '}';
     } else {
-        body.setting.temperature.celsius = this.targetTemp;
+        body.setting.temperature = '{"celsius": ' + this.targetTemp + '}';
     }
 
     this._setOverlay(body);
