@@ -379,12 +379,13 @@ TadoAccessory.prototype._setOverlay = function(body) {
 TadoAccessory.prototype._setTargetCoolingOverlay = function() {
     var body = {
         "termination": {
-            "type": "MANUAL"
+            "type": "TADO_MODE"
         },
         "setting": {
             "power": "ON",
             "type": "AIR_CONDITIONING",
             "fanSpeed": "AUTO",
+            "swing": "OFF",
             "mode": "COOL",
             "temperature": {}
         } 
@@ -401,12 +402,13 @@ TadoAccessory.prototype._setTargetCoolingOverlay = function() {
 TadoAccessory.prototype._setTargetHeatingOverlay = function() {
     var body = {
         "termination": {
-            "type": "MANUAL"
+            "type": "TADO_MODE"
         },
         "setting": {
             "power": "ON",
             "type": "AIR_CONDITIONING",
             "fanSpeed": "AUTO",
+            "swing": "OFF",
             "mode": "HEAT",
             "temperature": {}
         }
