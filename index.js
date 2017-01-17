@@ -208,11 +208,10 @@ TadoAccessory.prototype.setTargetHeatingCoolingState = function(state, callback)
                     "type": "MANUAL"
                 },
                 "setting": {
-                    "power": "OFF"
+                    "power": "OFF",
+                    "type": "AIR_CONDITIONING"
                 }
             };
-
-            body.setting.type = accessory.zoneMode;
 
             accessory._setOverlay(body);
             break;
