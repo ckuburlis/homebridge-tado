@@ -235,7 +235,7 @@ TadoAccessory.prototype.setTargetHeatingCoolingState = function(state, callback)
             accessory.log("Automatic control");
             accessory._setOverlay(null);
             accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.AUTO);  
-            accessory.service.setCharacteristic(Characteristic.TargetTemperature, 0); 
+            accessory.service.setCharacteristic(Characteristic.TargetTemperature, 25); 
             break;
     }
     callback(null);
@@ -355,7 +355,7 @@ TadoAccessory.prototype._getCurrentStateResponse = function(callback) {
 
     var options = {
         host: 'my.tado.com',
-        path: '/api/v2/homes/' + accessory.homeID + '/zones/1/state?username=' + accessory.username + '&password=' + accessory.password
+        path: '/api/v2/homes/' + accessory.homeID + '/zones/' + accessory.zone + '/state?username=' + accessory.username + '&password=' + accessory.password
     };
 
     https.request(options, callback).end();
@@ -367,7 +367,7 @@ TadoAccessory.prototype._setOverlay = function(body) {
     
     var options = {
         host: 'my.tado.com',
-        path: '/api/v2/homes/' + accessory.homeID + '/zones/1/overlay?username=' + accessory.username + '&password=' + accessory.password,
+        path: '/api/v2/homes/' + accessory.homeID + '/zones/' + accessory.zone + '/overlay?username=' + accessory.username + '&password=' + accessory.password,
         method: body == null ? 'DELETE' : 'PUT'
     };
     
