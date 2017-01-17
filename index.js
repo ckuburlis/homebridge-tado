@@ -156,7 +156,7 @@ TadoAccessory.prototype.getCurrentHeatingCoolingState = function(callback) {
     });
 }
 
-TadoAccessory.prototype.getTargetHeatingCoolingState = function(state, callback) {
+TadoAccessory.prototype.getTargetHeatingCoolingState = function(callback) {
     var accessory = this;  
    
     accessory._getCurrentStateResponse(function(response) {
@@ -193,9 +193,9 @@ TadoAccessory.prototype.getTargetHeatingCoolingState = function(state, callback)
                 } else {
                     accessory.log("Target operating state is " + obj.overlay.setting.mode);
                     accessory.log("state: " + state);
-                    if (state == Characteristic.CurrentHeatingCoolingState.HEAT) {
+                    if (JSON.stringify(obj.setting.mode).match("HEAT")) {
                         callback(null, Characteristic.CurrentHeatingCoolingState.HEAT);
-                    } else {
+                    } else if (JSON.stringify(obj.setting.mode).match("COOL")) {
                         callback(null, Characteristic.CurrentHeatingCoolingState.COOL);
                     }
                 }
@@ -322,12 +322,12 @@ TadoAccessory.prototype.setTargetTemperature = function(temp, callback) {
     accessory.log("Set target temperature to " + temp + "º");
     accessory.targetTemp = temp;
     
-    switch (Characteristic.CurrentHeatingCoolingState == Characteristic.CurrentHeatingCoolingState.HEAT) {
-        case false:
+    switch (accessory.zoneMode) {
+        case "COOL":
             accessory._setTargetCoolingOverlay();
             break;
 
-        case true:
+        case "HEAT":
             accessory._setTargetHeatingOverlay();
             break;
     }
