@@ -27,7 +27,6 @@ function TadoAccessory(log, config) {
     this.useFahrenheit = config['useFahrenheit'];
     this.useSwing = config['useSwing'] || false; // can get values: "ON" or "OFF"
     this.useFanSpeed = config['useFanSpeed'] || false; // can get values: "LOW", "MIDDLE", "HIGH" or "AUTO" depend on your aircon 
-    this.targetTemp = 25;
     this.zoneMode = "UNKNOWN";
 }
 
@@ -44,7 +43,7 @@ TadoAccessory.prototype.getServices = function() {
     this.log("Minimum setpoint " + minValue);
     this.log("Maximum setpoint " + maxValue);
 
-    this.targetTemp = minValue;
+    this.targetTemp = 25;
 
 
     var informationService = new Service.AccessoryInformation()
@@ -236,7 +235,7 @@ TadoAccessory.prototype.setTargetHeatingCoolingState = function(state, callback)
             accessory.log("Automatic control");
             accessory._setOverlay(null);
             accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.AUTO);  
-            accessory.service.setCharacteristic(Characteristic.TargetTemperature, 25); 
+            accessory.service.setCharacteristic(Characteristic.TargetTemperature, null); 
             break;
     }
     callback(null);
@@ -378,6 +377,10 @@ TadoAccessory.prototype._setOverlay = function(body) {
     }
     
     https.request(options, null).end(body);
+    
+    if (body == null) {
+        accessory.service.setCharacteristic(Characteristic.TargetTemperature, null); 
+    }
 }
 
 TadoAccessory.prototype._setTargetCoolingOverlay = function() {
