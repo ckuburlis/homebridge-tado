@@ -25,7 +25,8 @@ function TadoAccessory(log, config) {
     this.maxValue = config['maxValue'] || 31;
     this.minValue = config['minValue'] || 16;
     this.useFahrenheit = config['useFahrenheit'];
-
+    this.useSwing = config['useSwing'] || false; // can get values: "ON" or "OFF"
+    this.useFanSpeed = config['useFanSpeed'] || false; // can get values: "LOW", "MIDDLE", "HIGH" or "AUTO" depend on your aircon 
     this.targetTemp = 25;
     this.zoneMode = "UNKNOWN";
 }
@@ -387,8 +388,6 @@ TadoAccessory.prototype._setTargetCoolingOverlay = function() {
         "setting": {
             "power": "ON",
             "type": "AIR_CONDITIONING",
-            "fanSpeed": "AUTO",
-            "swing": "OFF",
             "mode": "COOL",
             "temperature": {}
         } 
@@ -398,7 +397,12 @@ TadoAccessory.prototype._setTargetCoolingOverlay = function() {
     } else {
         body.setting.temperature.celsius = this.targetTemp;
     }
-
+    if (this.useFanSpeed){
+        body.setting.fanSpeed = this.useFanSpeed;
+    }
+    if (this.useSwing){
+        body.setting.swing = this.useSwing;
+    }
     this._setOverlay(body);
 }
 
@@ -410,8 +414,6 @@ TadoAccessory.prototype._setTargetHeatingOverlay = function() {
         "setting": {
             "power": "ON",
             "type": "AIR_CONDITIONING",
-            "fanSpeed": "AUTO",
-            "swing": "OFF",
             "mode": "HEAT",
             "temperature": {}
         }
@@ -421,7 +423,12 @@ TadoAccessory.prototype._setTargetHeatingOverlay = function() {
     } else {
         body.setting.temperature.celsius = this.targetTemp;
     }
-
+    if (this.useFanSpeed){
+        body.setting.fanSpeed = this.useFanSpeed;
+    }
+    if (this.useSwing){
+        body.setting.swing = this.useSwing;
+    }
     this._setOverlay(body);
 }
 
