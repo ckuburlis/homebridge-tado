@@ -367,9 +367,10 @@ TadoAccessory.prototype._setOverlay = function(body) {
         path: '/api/v2/homes/' + accessory.homeID + '/zones/1/overlay?username=' + accessory.username + '&password=' + accessory.password,
         method: body == null ? 'DELETE' : 'PUT'
     };
-    accessory.log("body:   " + body);
+    
     if (body != null) {
         body = JSON.stringify(body);
+        accessory.log("body:   " + body);
     }
     
     https.request(options, null).end(body);
