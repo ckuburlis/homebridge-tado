@@ -221,28 +221,28 @@ TadoAccessory.prototype.setTargetHeatingCoolingState = function(state, callback)
                 }
             };
             accessory._setOverlay(body);
-            //accessory.service.setCharacteristic(Characteristic.TargetHeatingCoolingState, 0);
+            accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.OFF);
             callback(null, 0);         
             break;
 
         case Characteristic.TargetHeatingCoolingState.HEAT:
             accessory.log("Force heating");
             accessory._setTargetHeatingOverlay();
-            //accessory.service.setCharacteristic(Characteristic.TargetHeatingCoolingState, 1);
+            accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.HEAT);
             callback(null, 1);
             break;
 
         case Characteristic.TargetHeatingCoolingState.COOL:
             accessory.log("Force cooling");
             accessory._setTargetCoolingOverlay();
-            //accessory.service.setCharacteristic(Characteristic.TargetHeatingCoolingState, 2);
+            accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.COOL);
             callback(null, 2);
             break;
 
         case Characteristic.TargetHeatingCoolingState.AUTO:
             accessory.log("Automatic control");
             accessory._setOverlay(null);
-            //accessory.service.setCharacteristic(Characteristic.TargetHeatingCoolingState, 3);
+            accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.AUTO);
             callback(null, 3);
             break;
     }
