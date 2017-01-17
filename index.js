@@ -322,12 +322,12 @@ TadoAccessory.prototype.setTargetTemperature = function(temp, callback) {
     accessory.log("Set target temperature to " + temp + "º");
     accessory.targetTemp = temp;
     
-    switch (accessory.zoneMode) {
-        case "COOL":
+    switch (Characteristic.CurrentHeatingCoolingState == Characteristic.CurrentHeatingCoolingState.HEAT) {
+        case false:
             accessory._setTargetCoolingOverlay();
             break;
 
-        case "HEAT":
+        case true:
             accessory._setTargetHeatingOverlay();
             break;
     }
@@ -399,7 +399,7 @@ TadoAccessory.prototype._setOverlay = function(body) {
 TadoAccessory.prototype._setTargetCoolingOverlay = function() {
     var body = {
         "termination": {
-            "type": "TADO_MODE"
+            "type": "MANUAL"
         },
         "setting": {
             "power": "ON",
@@ -425,7 +425,7 @@ TadoAccessory.prototype._setTargetCoolingOverlay = function() {
 TadoAccessory.prototype._setTargetHeatingOverlay = function() {
     var body = {
         "termination": {
-            "type": "TADO_MODE"
+            "type": "MANUAL"
         },
         "setting": {
             "power": "ON",
