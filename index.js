@@ -459,7 +459,7 @@ TadoAccessory.prototype._setOverlay = function(body) {
     
     if (body != null) {
         body = JSON.stringify(body);
-        accessory.log("body:   " + body);
+        accessory.log("zone: " + accessory.zone + ",  body: " + body);
     }
     
     https.request(options, null).end(body);
