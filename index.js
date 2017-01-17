@@ -212,29 +212,29 @@ TadoAccessory.prototype.setTargetHeatingCoolingState = function(state, callback)
                     "type": "AIR_CONDITIONING"
                 }
             };
-
+            callback(null, Characteristic.TargetHeatingCoolingState.OFF);
             accessory._setOverlay(body);            
             break;
 
         case Characteristic.TargetHeatingCoolingState.HEAT:
-            accessory.log("Force heating");          
+            accessory.log("Force heating"); 
+            callback(null, Characteristic.TargetHeatingCoolingState.HEAT);
             accessory._setTargetHeatingOverlay();
            
             break;
 
         case Characteristic.TargetHeatingCoolingState.COOL:
             accessory.log("Force cooling");
+            callback(null, Characteristic.TargetHeatingCoolingState.COOL);
             accessory._setTargetCoolingOverlay();
             break;
 
         case Characteristic.TargetHeatingCoolingState.AUTO:
             accessory.log("Automatic control");
-            
+            callback(null, Characteristic.TargetHeatingCoolingState.AUTO);
             accessory._setOverlay(null);
             break;
     }
-
-    callback(null);
 }
 
 TadoAccessory.prototype.getCurrentTemperature = function(callback) {
