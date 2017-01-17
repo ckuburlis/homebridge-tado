@@ -156,7 +156,7 @@ TadoAccessory.prototype.getCurrentHeatingCoolingState = function(callback) {
                  }  
                 else {
                     if (JSON.stringify(obj.setting.mode).match("HEAT")) {
-                        if (accessory.lastMode !== "HEAT) {
+                        if (accessory.lastMode !== "HEAT") {
                             accessory.storage.setItem(accessory.name, "HEAT");
                         };
                         callback(null, Characteristic.CurrentHeatingCoolingState.HEAT); 
@@ -264,7 +264,7 @@ TadoAccessory.prototype.setTargetHeatingCoolingState = function(state, callback)
         case true:
             var lastMode = accessory.storage.getItem(accessory.name);
             switch (lastMode)  {
-                case "OFF:
+                case "OFF":
                     accessory.log("Set target state to off");
 
                     var body = {
