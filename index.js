@@ -220,30 +220,26 @@ TadoAccessory.prototype.setTargetHeatingCoolingState = function(state, callback)
                     "type": "AIR_CONDITIONING"
                 }
             };
+            accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.OFF);        
             accessory._setOverlay(body);
-            Characteristic.CurrentHeatingCoolingState = Characteristic.CurrentHeatingCoolingState.OFF;
-            accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState);        
             break;
 
         case Characteristic.TargetHeatingCoolingState.HEAT:
             accessory.log("Force heating");
+            accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.HEAT);
             accessory._setTargetHeatingOverlay();
-            Characteristic.CurrentHeatingCoolingState = Characteristic.CurrentHeatingCoolingState.HEAT;
-            accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState);
             break;
 
         case Characteristic.TargetHeatingCoolingState.COOL:
-            accessory.log("Force cooling");
+            accessory.log("Force cooling"); 
+            accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.COOL);;
             accessory._setTargetCoolingOverlay();
-            Characteristic.CurrentHeatingCoolingState = Characteristic.CurrentHeatingCoolingState.COOL;
-            accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState);;
             break;
 
         case Characteristic.TargetHeatingCoolingState.AUTO:
             accessory.log("Automatic control");
             accessory._setOverlay(null);
-            Characteristic.CurrentHeatingCoolingState = Characteristic.CurrentHeatingCoolingState.AUTO;
-            accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState);  
+            accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.AUTO);  
             accessory.service.setCharacteristic(Characteristic.TargetTemperature, null); 
             break;
         case true:
