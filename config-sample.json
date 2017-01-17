@@ -12,8 +12,14 @@
       "accessory": "TADO",
       "name": "Tado",
       "homeID": "homeID",
-      "username": "usr",
-      "password": "passwd"
+      "maxValue": 31,
+      "minValue": 16,
+      "zone": 1,
+      "username": "xxxxx@xxxx.com",
+      "password": "XXXXX",
+      "useFanSpeed": "AUTO",
+      "useSwing": false,
+      "useFahrenheit": false
     }
   ]
 }
