@@ -239,8 +239,8 @@ TadoAccessory.prototype.setTargetHeatingCoolingState = function(state, callback)
         case Characteristic.TargetHeatingCoolingState.AUTO:
             accessory.log("Automatic control");
             accessory._setOverlay(null);
-            accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.AUTO);         
-            accessory.setTargetTemperature(accessory.getTargetTemperature(accessory));
+            accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.AUTO);  
+            accessory.service.setCharacteristic(Characteristic.TargetTemperature, null); 
             break;
     }
     callback(null);
@@ -313,7 +313,7 @@ TadoAccessory.prototype.setTargetTemperature = function(temp, callback) {
     var accessory = this;
     accessory.log("Set target temperature to " + temp + "º");
     accessory.targetTemp = temp;
-
+    
     switch (accessory.zoneMode) {
         case "COOL":
             accessory._setTargetCoolingOverlay();
