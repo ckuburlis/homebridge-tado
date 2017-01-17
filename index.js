@@ -246,7 +246,7 @@ TadoAccessory.prototype.setTargetHeatingCoolingState = function(state, callback)
             callback(null, 3);
             break;
     }
-    callback(null);
+    //callback(null);
 }
 
 TadoAccessory.prototype.getCurrentTemperature = function(callback) {
