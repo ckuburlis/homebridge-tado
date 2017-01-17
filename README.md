@@ -21,8 +21,14 @@ Configuration sample:
   "accessory": "TADO",
   "name": "Tado",
   "homeID": "homeID",
-  "username": "TadoUsername",
-  "password": "TadoPassword"
+  "maxValue": 31,
+  "minValue": 16,
+  "zone": 1,
+  "username": "xxxxx@xxxx.com",
+  "password": "XXXXX",
+  "useFanSpeed": "AUTO",
+  "useSwing": false,
+  "useFahrenheit": false
 }
 ]
 ```
