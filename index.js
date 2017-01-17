@@ -134,14 +134,19 @@ TadoAccessory.prototype.getCurrentHeatingCoolingState = function(callback) {
             if (JSON.stringify(obj.setting.power).match("OFF")) {
                 accessory.log("Current operating state is OFF");
                  
-                callback(null, Characteristic.CurrentHeatingCoolingState.OFF);
+                callback(null, 0);
             } else {
                 accessory.log("Current operating state is " + obj.setting.mode);
                  
                 if (JSON.stringify(obj.setting.mode).match("HEAT")) {
-                    callback(null, Characteristic.CurrentHeatingCoolingState.HEAT);            
+                    callback(null, 1);            
                 } else {
-                    callback(null, Characteristic.CurrentHeatingCoolingState.COOL);
+                    callback(null, 2);
+                }
+                if (JSON.stringify(obj.overlay) == null) {
+                accessory.log("Target operating state is AUTO");
+                 
+                    callback(null, 3);
                 }
             }
         });
@@ -217,28 +222,28 @@ TadoAccessory.prototype.setTargetHeatingCoolingState = function(state, callback)
             };
             accessory._setOverlay(body);
             //accessory.service.setCharacteristic(Characteristic.TargetHeatingCoolingState, 0);
-            //callback(null, Characteristic.TargetHeatingCoolingState.OFF);         
+            callback(null, 0);         
             break;
 
         case Characteristic.TargetHeatingCoolingState.HEAT:
             accessory.log("Force heating");
             accessory._setTargetHeatingOverlay();
             //accessory.service.setCharacteristic(Characteristic.TargetHeatingCoolingState, 1);
-            //callback(null, Characteristic.TargetHeatingCoolingState.HEAT);
+            callback(null, 1);
             break;
 
         case Characteristic.TargetHeatingCoolingState.COOL:
             accessory.log("Force cooling");
             accessory._setTargetCoolingOverlay();
             //accessory.service.setCharacteristic(Characteristic.TargetHeatingCoolingState, 2);
-            //callback(null, Characteristic.TargetHeatingCoolingState.COOL);
+            callback(null, 2);
             break;
 
         case Characteristic.TargetHeatingCoolingState.AUTO:
             accessory.log("Automatic control");
             accessory._setOverlay(null);
             //accessory.service.setCharacteristic(Characteristic.TargetHeatingCoolingState, 3);
-            //callback(null, Characteristic.TargetHeatingCoolingState.AUTO);
+            callback(null, 3);
             break;
     }
     callback(null);
