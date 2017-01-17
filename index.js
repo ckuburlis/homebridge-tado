@@ -182,19 +182,19 @@ TadoAccessory.prototype.getTargetHeatingCoolingState = function(callback) {
             if (obj.overlay == null) {
                 accessory.log("Target operating state is AUTO");
                  
-                callback(null, Characteristic.TargetHeatingCoolingState.AUTO);
+                callback(null);
             } else {
                 if (JSON.stringify(obj.overlay.setting.power).match("OFF")) {
                     accessory.log("Target operating state is OFF");
                     
-                    callback(null, Characteristic.TargetHeatingCoolingState.OFF);
+                    callback(null);
                 } else {
                     accessory.log("Target operating state is " + obj.overlay.setting.mode);
                     
                     if (JSON.stringify(obj.overlay.setting.mode).match("HEATING")) {
-                        callback(null, Characteristic.TargetHeatingCoolingState.HEAT);
+                        callback(null);
                     } else {
-                        callback(null, Characteristic.TargetHeatingCoolingState.COOL);
+                        callback(null);
                     }
                 }
             }
