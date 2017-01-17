@@ -28,6 +28,7 @@ function TadoAccessory(log, config) {
     this.useSwing = config['useSwing'] || false; // can get values: "ON" or "OFF"
     this.useFanSpeed = config['useFanSpeed'] || false; // can get values: "LOW", "MIDDLE", "HIGH" or "AUTO" depend on your aircon 
     this.zoneMode = "UNKNOWN";
+    this.targetTemp = 25;
 }
 
 TadoAccessory.prototype.getServices = function() {
@@ -192,7 +193,7 @@ TadoAccessory.prototype.getTargetHeatingCoolingState = function(callback) {
                 } else {
                     accessory.log("Target operating state is " + obj.overlay.setting.mode);
                     
-                    if (JSON.stringify(obj.overlay.setting.mode).match("HEATING")) {
+                    if (Characteristic.CurrentHeatingCoolingState == Characteristic.CurrentHeatingCoolingState.HEAT) {
                         callback(null, Characteristic.CurrentHeatingCoolingState.HEAT);
                     } else {
                         callback(null, Characteristic.CurrentHeatingCoolingState.COOL);
