@@ -243,16 +243,10 @@ TadoAccessory.prototype.setTargetHeatingCoolingState = function(state, callback)
             break;
         case true:
             accessory.log("turn ON");
-            var body = {
-                "termination": {
-                    "type": "MANUAL"
-                },
-                "setting": {
-                    "power": "ON",
-                    "type": "AIR_CONDITIONING"
-                }
-            };
-            accessory._setOverlay(body);       
+            accessory.log("Automatic control");
+            accessory._setOverlay(null);
+            accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.AUTO);  
+            accessory.service.setCharacteristic(Characteristic.TargetTemperature, null);        
             break;
             
     }
