@@ -8,7 +8,7 @@ module.exports = function(homebridge) {
     Service = homebridge.hap.Service;
     Characteristic = homebridge.hap.Characteristic;
     Accessory = homebridge.hap.Accessory;
-
+    HomebridgeAPI = homebridge;
     homebridge.registerAccessory('homebridge-tado', 'TADO', TadoAccessory);
 }
 
