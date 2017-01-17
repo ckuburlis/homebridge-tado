@@ -212,29 +212,30 @@ TadoAccessory.prototype.setTargetHeatingCoolingState = function(state, callback)
                     "type": "AIR_CONDITIONING"
                 }
             };
-            accessory.service.setCharacteristic(Characteristic.TargetHeatingCoolingState.OFF);
+            //accessory.service.setCharacteristic(Characteristic.TargetHeatingCoolingState, state);
             accessory._setOverlay(body);            
             break;
 
         case Characteristic.TargetHeatingCoolingState.HEAT:
             accessory.log("Force heating"); 
-            accessory.service.setCharacteristic(Characteristic.TargetHeatingCoolingState.HEAT);
+            //accessory.service.setCharacteristic(Characteristic.TargetHeatingCoolingState, "HEAT");
             accessory._setTargetHeatingOverlay();
            
             break;
 
         case Characteristic.TargetHeatingCoolingState.COOL:
             accessory.log("Force cooling");
-            accessory.service.setCharacteristic(Characteristic.TargetHeatingCoolingState.COOL);
+            //accessory.service.setCharacteristic(Characteristic.TargetHeatingCoolingState, "COOL");
             accessory._setTargetCoolingOverlay();
             break;
 
         case Characteristic.TargetHeatingCoolingState.AUTO:
             accessory.log("Automatic control");
-            accessory.service.setCharacteristic(Characteristic.TargetHeatingCoolingState.AUTO);
+            //accessory.service.setCharacteristic(Characteristic.TargetHeatingCoolingState, "AUTO");
             accessory._setOverlay(null);
             break;
     }
+    accessory.service.setCharacteristic(Characteristic.TargetHeatingCoolingState, state);
     callback(null)
 }
 
