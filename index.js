@@ -214,23 +214,26 @@ TadoAccessory.prototype.setTargetHeatingCoolingState = function(state, callback)
             };
 
             accessory._setOverlay(body);
+            callback(null, Characteristic.CurrentHeatingCoolingState.OFF);  
             break;
 
         case Characteristic.TargetHeatingCoolingState.HEAT:
             accessory.log("Force heating");
- 
+            
             accessory._setTargetHeatingOverlay();
+            callback(null, Characteristic.CurrentHeatingCoolingState.HEAT);  
             break;
 
         case Characteristic.TargetHeatingCoolingState.COOL:
             accessory.log("Force cooling");
  
             accessory._setTargetCoolingOverlay();
+            callback(null, Characteristic.CurrentHeatingCoolingState.COOL);  
             break;
 
         case Characteristic.TargetHeatingCoolingState.AUTO:
             accessory.log("Automatic control");
-
+            
             accessory._setOverlay(null);
             break;
     }
