@@ -150,7 +150,7 @@ TadoAccessory.prototype.getCurrentHeatingCoolingState = function(callback) {
 
 TadoAccessory.prototype.getTargetHeatingCoolingState = function(callback) {
   var accessory = this;  
-  setTimout(function() {
+  setTimeout(function(){
    
     accessory._getCurrentStateResponse(function(response) {
         var str = '';
@@ -215,31 +215,32 @@ TadoAccessory.prototype.setTargetHeatingCoolingState = function(state, callback)
                     "type": "AIR_CONDITIONING"
                 }
             };
+            accessory._setOverlay(body);
             accessory.service.setCharacteristic(Characteristic.TargetHeatingCoolingState, "OFF");
-            accessory._setOverlay(body);            
+            callback(null, Characteristic.TargetHeatingCoolingState.OFF);         
             break;
 
         case Characteristic.TargetHeatingCoolingState.HEAT:
-            accessory.log("Force heating"); 
-            accessory.service.setCharacteristic(Characteristic.TargetHeatingCoolingState, "HEAT");
+            accessory.log("Force heating");
             accessory._setTargetHeatingOverlay();
-           
+            accessory.service.setCharacteristic(Characteristic.TargetHeatingCoolingState, "HEAT");
+            callback(null, Characteristic.TargetHeatingCoolingState.HEAT);
             break;
 
         case Characteristic.TargetHeatingCoolingState.COOL:
             accessory.log("Force cooling");
-            accessory.service.setCharacteristic(Characteristic.TargetHeatingCoolingState, "COOL");
             accessory._setTargetCoolingOverlay();
+            accessory.service.setCharacteristic(Characteristic.TargetHeatingCoolingState, "COOL");
+            callback(null, Characteristic.TargetHeatingCoolingState.COOL);
             break;
 
         case Characteristic.TargetHeatingCoolingState.AUTO:
             accessory.log("Automatic control");
-            accessory.service.setCharacteristic(Characteristic.TargetHeatingCoolingState, "AUTO");
             accessory._setOverlay(null);
+            accessory.service.setCharacteristic(Characteristic.TargetHeatingCoolingState, "AUTO");
+            callback(null, Characteristic.TargetHeatingCoolingState.AUTO);
             break;
     }
-    //accessory.service.setCharacteristic(Characteristic.TargetHeatingCoolingState, state);
-    callback(null, state)
 }
 
 TadoAccessory.prototype.getCurrentTemperature = function(callback) {
