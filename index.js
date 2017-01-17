@@ -29,12 +29,13 @@ function TadoAccessory(log, config) {
     this.useFanSpeed = config['useFanSpeed'] || false; // can get values: "LOW", "MIDDLE", "HIGH" or "AUTO" depend on your aircon 
     this.zoneMode = "UNKNOWN";
     this.targetTemp = 25;
-    this.lastMode = this.storage.getItem(this.name) || "";
+    
     
     //Init storage
       this.storage.initSync({
         dir: HomebridgeAPI.user.persistPath()
       });
+    this.lastMode = this.storage.getItem(this.name) || "";
 }
 
 TadoAccessory.prototype.getServices = function() {
