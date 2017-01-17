@@ -235,12 +235,26 @@ TadoAccessory.prototype.setTargetHeatingCoolingState = function(state, callback)
             accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.COOL);;
             break;
 
-        case (Characteristic.TargetHeatingCoolingState.AUTO || true):
+        case Characteristic.TargetHeatingCoolingState.AUTO:
             accessory.log("Automatic control");
             accessory._setOverlay(null);
             accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.AUTO);  
             accessory.service.setCharacteristic(Characteristic.TargetTemperature, null); 
             break;
+        case true:
+            accessory.log("turn ON");
+            var body = {
+                "termination": {
+                    "type": "MANUAL"
+                },
+                "setting": {
+                    "power": "ON",
+                    "type": "AIR_CONDITIONING"
+                }
+            };
+            accessory._setOverlay(body);       
+            break;
+            
     }
     callback(null);
 }
