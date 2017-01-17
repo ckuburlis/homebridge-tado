@@ -26,7 +26,7 @@ function TadoAccessory(log, config) {
     this.minValue = config['minValue'] || 16;
     this.useFahrenheit = config['useFahrenheit'];
 
-    this.targetTemp = 0;
+    this.targetTemp = 25;
     this.zoneMode = "UNKNOWN";
 }
 
@@ -377,33 +377,48 @@ TadoAccessory.prototype._setOverlay = function(body) {
 }
 
 TadoAccessory.prototype._setTargetCoolingOverlay = function() {
-    var body = {
+    body = {
         "termination": {
-            "type": "MANUAL"
+            "type": "MANUAL",
+            projectedExpiry": null
         },
         "setting": {
             "power": "ON",
             "type": "AIR_CONDITIONING",
-            "fanSpeed": "AUTO",
             "swing": "OFF",
+            "fanSpeed": "AUTO",
             "mode": "COOL",
             "temperature": {}
-        }
+        },
+        "overlayType": "MANUAL",
+        "overlay": {
+            "type": "MANUAL",
+            "setting": {
+                "power": "ON",
+                "type": "AIR_CONDITIONING",
+                "swing": "OFF",
+                "fanSpeed": "AUTO",
+                "mode": "COOL",
+                "temperature": {}
+            }
+        }  
     };
-
     if (this.useFahrenheit) {
         body.setting.temperature = '{"fahrenheit": ' + this.targetTemp + '}';
+        body.overlay.setting.temperature = '{"fahrenheit": ' + this.targetTemp + '}';
     } else {
-        body.setting.temperature = '"celsius": ' + this.targetTemp + '}';
+        body.setting.temperature = '{"celsius": ' + this.targetTemp + '}';
+        body.overlay.setting.temperature = '{"celsius": ' + this.targetTemp + '}';
     }
 
     this._setOverlay(body);
 }
 
 TadoAccessory.prototype._setTargetHeatingOverlay = function() {
-    var body = {
+    body = {
         "termination": {
-            "type": "MANUAL"
+            "type": "MANUAL",
+            projectedExpiry": null
         },
         "setting": {
             "power": "ON",
@@ -412,13 +427,26 @@ TadoAccessory.prototype._setTargetHeatingOverlay = function() {
             "fanSpeed": "AUTO",
             "mode": "HEAT",
             "temperature": {}
-        }
+        },
+        "overlayType": "MANUAL",
+        "overlay": {
+            "type": "MANUAL",
+            "setting": {
+                "power": "ON",
+                "type": "AIR_CONDITIONING",
+                "swing": "OFF",
+                "fanSpeed": "AUTO",
+                "mode": "HEAT",
+                "temperature": {}
+            }
+        }  
     };
-
     if (this.useFahrenheit) {
         body.setting.temperature = '{"fahrenheit": ' + this.targetTemp + '}';
+        body.overlay.setting.temperature = '{"fahrenheit": ' + this.targetTemp + '}';
     } else {
         body.setting.temperature = '{"celsius": ' + this.targetTemp + '}';
+        body.overlay.setting.temperature = '{"celsius": ' + this.targetTemp + '}';
     }
 
     this._setOverlay(body);
