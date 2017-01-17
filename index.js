@@ -186,7 +186,7 @@ TadoAccessory.prototype.getTargetHeatingCoolingState = function(callback) {
                 accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.AUTO);
                 callback(null, Characteristic.CurrentHeatingCoolingState.AUTO);
             } else {
-                if (JSON.stringify(obj.overlay.setting.power).match("OFF")) {
+                if (JSON.stringify(obj.setting.power).match("OFF")) {
                     accessory.log("Target operating state is OFF");
                     
                     callback(null, Characteristic.CurrentHeatingCoolingState.OFF);
