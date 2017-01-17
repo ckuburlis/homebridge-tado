@@ -149,8 +149,7 @@ TadoAccessory.prototype.getCurrentHeatingCoolingState = function(callback) {
 }
 
 TadoAccessory.prototype.getTargetHeatingCoolingState = function(callback) {
-  var accessory = this;  
-  setTimeout(function(){
+    var accessory = this;  
    
     accessory._getCurrentStateResponse(function(response) {
         var str = '';
@@ -194,9 +193,7 @@ TadoAccessory.prototype.getTargetHeatingCoolingState = function(callback) {
                 }
             }
         });
-    });
-      
-  }, 500);
+    });      
 }
 
 TadoAccessory.prototype.setTargetHeatingCoolingState = function(state, callback) {
