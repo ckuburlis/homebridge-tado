@@ -207,7 +207,7 @@ TadoAccessory.prototype.setTargetHeatingCoolingState = function(state, callback)
     var accessory = this;
 
     switch (state) {
-        case Characteristic.TargetHeatingCoolingState.OFF:
+        case (Characteristic.TargetHeatingCoolingState.OFF || false):
             accessory.log("Set target state to off");
  
             var body = {
@@ -235,7 +235,7 @@ TadoAccessory.prototype.setTargetHeatingCoolingState = function(state, callback)
             accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.COOL);;
             break;
 
-        case Characteristic.TargetHeatingCoolingState.AUTO:
+        case (Characteristic.TargetHeatingCoolingState.AUTO || true):
             accessory.log("Automatic control");
             accessory._setOverlay(null);
             accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.AUTO);  
