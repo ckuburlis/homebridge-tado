@@ -16,7 +16,8 @@
     "url": "git://github.com/ckuburlis/homebridge-tado.git"
   },
   "dependencies": {
-    "object-assign": "^4.0.1"
+    "object-assign": "^4.0.1",
+    "node-persist": "0.0.8",
   },
   "bugs": {
     "url": "https://github.com/ckuburlis/homebridge-tado/issues"
