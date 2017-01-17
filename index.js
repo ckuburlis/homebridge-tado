@@ -380,7 +380,7 @@ TadoAccessory.prototype._setTargetCoolingOverlay = function() {
     body = {
         "termination": {
             "type": "MANUAL",
-            projectedExpiry": null
+            "projectedExpiry": null
         },
         "setting": {
             "power": "ON",
@@ -404,11 +404,11 @@ TadoAccessory.prototype._setTargetCoolingOverlay = function() {
         }  
     };
     if (this.useFahrenheit) {
-        body.setting.temperature = '{"fahrenheit": ' + this.targetTemp + '}';
-        body.overlay.setting.temperature = '{"fahrenheit": ' + this.targetTemp + '}';
+        body.setting.temperature = '{\"fahrenheit\": ' + this.targetTemp + '}';
+        body.overlay.setting.temperature = '{\"fahrenheit\": ' + this.targetTemp + '}';
     } else {
-        body.setting.temperature = '{"celsius": ' + this.targetTemp + '}';
-        body.overlay.setting.temperature = '{"celsius": ' + this.targetTemp + '}';
+        body.setting.temperature = '{\"celsius\": ' + this.targetTemp + '}';
+        body.overlay.setting.temperature = '{\"celsius\": ' + this.targetTemp + '}';
     }
 
     this._setOverlay(body);
@@ -418,7 +418,7 @@ TadoAccessory.prototype._setTargetHeatingOverlay = function() {
     body = {
         "termination": {
             "type": "MANUAL",
-            projectedExpiry": null
+            "projectedExpiry": null
         },
         "setting": {
             "power": "ON",
@@ -443,10 +443,10 @@ TadoAccessory.prototype._setTargetHeatingOverlay = function() {
     };
     if (this.useFahrenheit) {
         body.setting.temperature = '{"fahrenheit": ' + this.targetTemp + '}';
-        body.overlay.setting.temperature = '{"fahrenheit": ' + this.targetTemp + '}';
+        body.overlay.setting.temperature = '{\"fahrenheit\": ' + this.targetTemp + '}';
     } else {
         body.setting.temperature = '{"celsius": ' + this.targetTemp + '}';
-        body.overlay.setting.temperature = '{"celsius": ' + this.targetTemp + '}';
+        body.overlay.setting.temperature = '{\"celsius\": ' + this.targetTemp + '}';
     }
 
     this._setOverlay(body);
