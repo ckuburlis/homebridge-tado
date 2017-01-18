@@ -280,7 +280,8 @@ TadoAccessory.prototype.setTargetHeatingCoolingState = function(state, callback)
                     accessory.storage.setItem(accessory.name, "COOL");
                     accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.COOL);;
                     accessory._setTargetCoolingOverlay();
-                    break;    
+                    break;
+            }
             break;
             
     }
