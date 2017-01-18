@@ -274,8 +274,7 @@ TadoAccessory.prototype.setTargetHeatingCoolingState = function(state, callback)
             break;
             
         case true:
-            var lastMode = accessory.storage.getItem(accessory.name);
-            switch (lastMode)  {
+            switch (accessory.lastMode)  {
                 case "OFF":
                     accessory.log("Set target state to off");
 
