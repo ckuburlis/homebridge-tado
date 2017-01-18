@@ -96,13 +96,6 @@ TadoAccessory.prototype.getServices = function() {
         })
         .on('get', this.getCurrentRelativeHumidity.bind(this));
 
-    this.service.getCharacteristic(Characteristic.CoolingThresholdTemperature)
-        .setProps({
-            minValue: minValue,
-            maxValue: maxValue,
-            minStep: 1
-        });
-
     this.service.addCharacteristic(Characteristic.On);
     this.service.getCharacteristic(Characteristic.On)
         .on('set', this.setTargetHeatingCoolingState.bind(this));
@@ -395,7 +388,7 @@ TadoAccessory.prototype.setTargetTemperature = function(temp, callback) {
     var accessory = this;
     accessory.log("Set target temperature to " + temp + "º");
     accessory.targetTemp = temp;
-    
+    accessory.log("last Mode: " + accessory.lastMode);
     switch (accessory.lastMode) {
         case "COOL":
             accessory._setTargetCoolingOverlay();
