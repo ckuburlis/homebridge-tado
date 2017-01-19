@@ -1,6 +1,6 @@
 {
   "name": "homebridge-tado",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Tado plugin for homebridge: https://github.com/nfarina/homebridge",
   "license": "MIT",
   "keywords": [
