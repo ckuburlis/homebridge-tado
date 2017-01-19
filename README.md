@@ -11,9 +11,7 @@ Complies with ```Service.Thermostat```
 2. Install this plugin using: `npm install -g homebridge-tado`
 3. Update your configuration file. See `sample-config.json` in this repository for a sample.
 
-## Configuration
-
-Configuration sample:
+## Config file
 
 ```
 "accessories": [
@@ -32,6 +30,21 @@ Configuration sample:
 }
 ]
 ```
+## Configuration
+
+|             Parameter            |                       Description                       | Required |  Default  |
+| -------------------------------- | ------------------------------------------------------- |:--------:|:---------:|
+| `accessory`                      | always "TADO"                                           |     ✓    |      -    |
+| `name`                           | name of the accessory                                   |     ✓    |      -    |
+| `homeID`                         | see below ```Finding HomeID```                          |     ✓    |      -    |
+| `maxValue`                       | Max temprature of your AC (in Tado app)                 |          |      31   |
+| `minValue`                       | Min temprature of your AC (in Tado app)                 |          |      16   |
+| `zone`                           | zone number of your Tado                                |          |      1    |
+| `username`                       | your tado account username (something@something.com)    |     ✓    |      -    |
+| `password`                       | your tado account password                              |     ✓    |      -    |
+| `useFanSpeed`                    | your AC settings on Tado app. can be "AUTO"/"LOW"/"MEDIUIM"/HIGH" or false for no fanspeed option         |         |      false    |
+| `useSwing`                       | your AC settings on Tado app. can be "ON"/"OFF" or false for no swing option  |          |     false    |
+| `useFahrenheit`                  | true for using Fahrenheit or false for Celsius          |     ✓    |      -    |
 
 ## Finding HomeID
 
