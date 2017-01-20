@@ -319,11 +319,10 @@ TadoAccessory.prototype.getTargetTemperature = function(callback) {
             
             if (obj.setting.temperature == null) {
                     accessory.log("Target temperature is unavailable");
-                    callback(null, accessory.lastTemp);
+                    callback(null, null);
                     return;
             }
-
-            if (accessory.useFahrenheit) {
+            else if (accessory.useFahrenheit) {
                     accessory.log("Target temperature is " + obj.setting.temperature.fahrenheit + "ºF");
                     accessory.storage.setItem(accessory.name + "_lastTemp", obj.setting.temperature.fahrenheit);
                     callback(null, obj.setting.temperature.fahrenheit);
@@ -338,19 +337,20 @@ TadoAccessory.prototype.getTargetTemperature = function(callback) {
 
 TadoAccessory.prototype.setTargetTemperature = function(temp, callback) {
     var accessory = this;
-    accessory.log("Set target temperature to " + temp + "º");
-    accessory.storage.setItem(accessory.name + "_lastTemp", temp);
-    accessory.log("last Mode: " + accessory.lastMode);
-    switch (accessory.lastMode) {
-        case "COOL":
-            accessory._setTargetCoolingOverlay(temp);
-            break;
+    if (obj.setting.temperature !== null) {
+        accessory.log("Set target temperature to " + temp + "º");
+        accessory.storage.setItem(accessory.name + "_lastTemp", temp);
+        accessory.log("last Mode: " + accessory.lastMode);
+        switch (accessory.lastMode) {
+            case "COOL":
+                accessory._setTargetCoolingOverlay(temp);
+                break;
 
-        case "HEAT":
-            accessory._setTargetHeatingOverlay(temp);
-            break;
+            case "HEAT":
+                accessory._setTargetHeatingOverlay(temp);
+                break;
+        }
     }
-
     callback(null);
 }
 
