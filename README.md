@@ -11,6 +11,8 @@ Complies with ```Service.Thermostat```
 2. Install this plugin using: `npm install -g homebridge-tado`
 3. Update your configuration file. See `sample-config.json` in this repository for a sample.
 
+**install from git (latest version): `sudo npm install -g https://github.com/ckuburlis/homebridge-tado.git`
+
 ## Config file
 
 ```
