@@ -337,7 +337,7 @@ TadoAccessory.prototype.getTargetTemperature = function(callback) {
 
 TadoAccessory.prototype.setTargetTemperature = function(temp, callback) {
     var accessory = this;
-    if (obj.setting.temperature !== null) {
+    if (temp !== null) {
         accessory.log("Set target temperature to " + temp + "º");
         accessory.storage.setItem(accessory.name + "_lastTemp", temp);
         accessory.log("last Mode: " + accessory.lastMode);
