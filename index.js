@@ -240,7 +240,6 @@ TadoAccessory.prototype.setTargetHeatingCoolingState = function(state, callback)
             accessory.log("Automatic control");
             accessory._setOverlay(null);
             accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.AUTO);  
-            accessory.service.setCharacteristic(Characteristic.TargetTemperature, accessory.lastTemp); 
     }
             
     else if (!state) {
