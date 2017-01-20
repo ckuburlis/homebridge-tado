@@ -37,7 +37,7 @@ function TadoAccessory(log, config) {
     this.lastTemp = this.storage.getItem(accessory.name + "_lastTemp");
     if (!this.lastTemp) {
         this.storage.setItem(accessory.name + "_lastTemp", 25);
-        this.lastTemp = 25}
+        this.lastTemp = 25;
     }
 }
 
