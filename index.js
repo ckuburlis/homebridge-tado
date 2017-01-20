@@ -133,7 +133,6 @@ TadoAccessory.prototype.getCurrentHeatingCoolingState = function(callback) {
                 accessory.log("Current operating state is " + obj.setting.mode);
                  if (JSON.stringify(obj.overlay) == null) {
                     accessory.log("current operating state is AUTO");
-                    accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.AUTO);
                     callback(null, Characteristic.CurrentHeatingCoolingState.AUTO);
                  }  
                 else {
@@ -203,79 +202,75 @@ TadoAccessory.prototype.getTargetHeatingCoolingState = function(callback) {
 
 TadoAccessory.prototype.setTargetHeatingCoolingState = function(state, callback) {
     var accessory = this;
+    if (state == Characteristic.TargetHeatingCoolingState.OFF) {
+        accessory.log("Set target state to off");
 
-    switch (state) {
-        case Characteristic.TargetHeatingCoolingState.OFF:
-            accessory.log("Set target state to off");
- 
-            var body = {
-                "termination": {
-                    "type": "MANUAL"
-                },
-                "setting": {
-                    "power": "OFF",
-                    "type": "AIR_CONDITIONING"
-                }
-            };
-            accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.OFF);        
-            accessory._setOverlay(body);
-            break;
+        var body = {
+            "termination": {
+                "type": "MANUAL"
+            },
+            "setting": {
+                "power": "OFF",
+                "type": "AIR_CONDITIONING"
+            }
+        };
+        accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.OFF);        
+        accessory._setOverlay(body);
+    }  
+    
+    else if (state == Characteristic.TargetHeatingCoolingState.HEAT) {
+        accessory.log("Force heating");
+        accessory.storage.setItem(accessory.name, "HEAT");
+        accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.HEAT);
+        accessory._setTargetHeatingOverlay(accessory.lastTemp);
+    }
 
-        case Characteristic.TargetHeatingCoolingState.HEAT:
-            accessory.log("Force heating");
-            accessory.storage.setItem(accessory.name, "HEAT");
-            accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.HEAT);
-            accessory._setTargetHeatingOverlay(accessory.lastTemp);
-            break;
-
-        case Characteristic.TargetHeatingCoolingState.COOL:
+    else if (state == Characteristic.TargetHeatingCoolingState.COOL) {
             accessory.log("Force cooling");
             accessory.storage.setItem(accessory.name, "COOL");
             accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.COOL);;
             accessory._setTargetCoolingOverlay(accessory.lastTemp);
-            break;
+    }
 
-        case Characteristic.TargetHeatingCoolingState.AUTO:
+    else if (state == Characteristic.TargetHeatingCoolingState.AUTO) {
             accessory.log("Automatic control");
             accessory._setOverlay(null);
             accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.AUTO);  
             accessory.service.setCharacteristic(Characteristic.TargetTemperature, accessory.lastTemp); 
-            break;
+    }
             
-        case false:
-            accessory.log("Set target state to off");
- 
-            var body = {
-                "termination": {
-                    "type": "MANUAL"
-                },
-                "setting": {
-                    "power": "OFF",
-                    "type": "AIR_CONDITIONING"
-                }
-            };
-            accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.OFF);        
-            accessory._setOverlay(body);
-            break;
-            
-        case true:
-            switch (accessory.lastMode) {
-                case "HEAT":
-                    accessory.log("Force heating");
-                    accessory.storage.setItem(accessory.name, "HEAT");
-                    accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.HEAT);
-                    accessory._setTargetHeatingOverlay(accessory.lastTemp);
-                    break;
+    else if (!state) {
+        accessory.log("Set target state to off");
 
-                case "COOL":
-                    accessory.log("Force cooling");
-                    accessory.storage.setItem(accessory.name, "COOL");
-                    accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.COOL);;
-                    accessory._setTargetCoolingOverlay(accessory.lastTemp);
-                    break;
+        var body = {
+            "termination": {
+                "type": "MANUAL"
+            },
+            "setting": {
+                "power": "OFF",
+                "type": "AIR_CONDITIONING"
             }
-            break;
+        };
+        accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.OFF);        
+        accessory._setOverlay(body);
+    }
             
+     else {
+        switch (accessory.lastMode) {
+            case "HEAT":
+                accessory.log("Force heating");
+                accessory.storage.setItem(accessory.name, "HEAT");
+                accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.HEAT);
+                accessory._setTargetHeatingOverlay(accessory.lastTemp);
+                break;
+
+            case "COOL":
+                accessory.log("Force cooling");
+                accessory.storage.setItem(accessory.name, "COOL");
+                accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.COOL);;
+                accessory._setTargetCoolingOverlay(accessory.lastTemp);
+                break;
+        }
     }
     callback(null);
 }
