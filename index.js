@@ -34,9 +34,9 @@ function TadoAccessory(log, config) {
         dir: HomebridgeAPI.user.persistPath()
       });
     this.lastMode = this.storage.getItem(this.name) || "";
-    this.lastTemp = this.storage.getItem(accessory.name + "_lastTemp");
+    this.lastTemp = this.storage.getItem(this.name + "_lastTemp");
     if (!this.lastTemp) {
-        this.storage.setItem(accessory.name + "_lastTemp", 25);
+        this.storage.setItem(this.name + "_lastTemp", 25);
         this.lastTemp = 25;
     }
 }
