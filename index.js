@@ -47,17 +47,6 @@ function TadoAccessory(log, config) {
             path: '/oauth/token?client_id=tado-webapp&grant_type=password&password=' + this.password + '&scope=home.user&username=' + this.username,
             method: 'POST'
     };
-    https.request(tokenOptions, function(response){
-            var strData = '';
-            response.on('data', function(chunk) {
-                strData += chunk;
-            });
-            response.on('end', function() {
-                var tokenObj = JSON.parse(strData);
-                this.token = tokenObj.access_token;
-                accessory.log("New Token is " + this.token);
-            });
-        }).end();
     setInterval(function(){
         https.request(tokenOptions, function(response){
             var strData = '';
@@ -429,7 +418,7 @@ TadoAccessory.prototype._getCurrentStateResponse = function(callback) {
             Authorization: 'Bearer ' + accessory.token
         }
     };
-    
+    accessory.log("check header:   " + options.headers)
     https.request(options, callback).end();
 }
 
