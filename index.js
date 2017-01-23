@@ -57,7 +57,7 @@ function TadoAccessory(log, config) {
                 var tokenObj = JSON.parse(strData);
                 this.token = tokenObj.access_token;
                 this.log("New Token is " + this.token);
-            }
+            });
         }).end();
     }, 500000)
 }
