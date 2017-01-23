@@ -48,6 +48,15 @@ function TadoAccessory(log, config) {
             method: 'POST'
     };
     https.request(tokenOptions, function(response){
+        var strData = '';
+        response.on('data', function(chunk) {
+            strData += chunk;
+        });
+        response.on('end', function() {
+            var tokenObj = JSON.parse(strData);
+            this.token = tokenObj.access_token;
+            accessory.log("New Token is " + this.token);
+        });
         setInterval(function(response){
             https.request(tokenOptions, function(response){
                 var strData = '';
