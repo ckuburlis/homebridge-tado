@@ -54,8 +54,8 @@ function TadoAccessory(log, config) {
         });
         response.on('end', function() {
             var tokenObj = JSON.parse(strData);
-            this.token = tokenObj.access_token;
-            accessory.log("New Token is " + this.token);
+            accessory.token = tokenObj.access_token;
+            accessory.log("New Token is " + accessory.token);
         });
         setInterval(function(response){
             https.request(tokenOptions, function(response){
@@ -65,8 +65,8 @@ function TadoAccessory(log, config) {
                 });
                 response.on('end', function() {
                     var tokenObj = JSON.parse(strData);
-                    this.token = tokenObj.access_token;
-                    accessory.log("New Token is " + this.token);
+                    accessory.token = tokenObj.access_token;
+                    accessory.log("New Token is " + accessory.token);
                 });
             }).end();
         }, 500000)
