@@ -389,13 +389,39 @@ TadoAccessory.prototype.getCurrentRelativeHumidity = function(callback) {
 TadoAccessory.prototype._getCurrentStateResponse = function(callback) {
     var accessory = this;
     accessory.log("Getting target state");
-
+    
     var options = {
         host: 'my.tado.com',
-        path: '/api/v2/homes/' + accessory.homeID + '/zones/' + accessory.zone + '/state?username=' + accessory.username + '&password=' + accessory.password
+        path: '/oauth/token/',
+        method: 'POST'
     };
-
-    https.request(options, callback).end();
+    var authData = {
+        client_id: 'tado-webap',
+        grant_type: 'password',
+        scope: 'home.user',
+        username: accessory.username,
+        password: accessory.password
+    }
+    
+    https.request(options, function(response){
+        var str2 = '';
+        response.on('data', function(chunk) {
+            str2 += chunk;
+        });
+        response.on('end', function() {
+            var obj2 = JSON.parse(str2);
+            var token = obj2.access_token;
+            var options2 = {
+                host: 'my.tado.com',
+                path: '/api/v2/homes/' + accessory.homeID + '/zones/' + accessory.zone + '/state',
+                method: 'GET',
+                headers: {
+                    Authorization: 'Bearer ' + token
+                }
+            };
+            https.request(options2, callback).end();
+        });
+    }).write(authData).end();
 }
 
 TadoAccessory.prototype._setOverlay = function(body) {
