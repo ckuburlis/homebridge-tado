@@ -54,8 +54,11 @@ function TadoAccessory(log, config) {
         });
         response.on('end', function() {
             var tokenObj = JSON.parse(strData);
-            accessory.token = tokenObj.access_token;
-            accessory.log("New Token is " + accessory.token);
+            var lastToken = accessory.storage.getItem('Tado_Token');
+            if (lastToken !== tokenObj.access_token) {
+                accessory.storage.setItem('Tado_Token', tokenObj.access_token);
+                accessory.log("New Token is " + accessory.token);
+            }
         });
         setInterval(function(response){
             https.request(tokenOptions, function(response){
@@ -65,8 +68,11 @@ function TadoAccessory(log, config) {
                 });
                 response.on('end', function() {
                     var tokenObj = JSON.parse(strData);
-                    accessory.token = tokenObj.access_token;
-                    accessory.log("New Token is " + accessory.token);
+                    var lastToken = accessory.storage.getItem('Tado_Token');
+                    if (lastToken !== tokenObj.access_token) {
+                        accessory.storage.setItem('Tado_Token', tokenObj.access_token);
+                        accessory.log("New Token is " + accessory.token);
+                    }
                 });
             }).end();
         }, 500000)
@@ -421,12 +427,12 @@ TadoAccessory.prototype.getCurrentRelativeHumidity = function(callback) {
 TadoAccessory.prototype._getCurrentStateResponse = function(callback) {
     var accessory = this;
     accessory.log("Getting target state");
-    
+    var lastToken = accessory.storage.getItem('Tado_Token');
     var options = {
         host: 'my.tado.com',
         path: '/api/v2/homes/' + accessory.homeID + '/zones/' + accessory.zone + '/state',
         headers: {
-            Authorization: 'Bearer ' + accessory.token
+            Authorization: 'Bearer ' + lastToken
         }
     };
     accessory.log("check header:   " + options.headers.Authorization)
@@ -436,13 +442,13 @@ TadoAccessory.prototype._getCurrentStateResponse = function(callback) {
 TadoAccessory.prototype._setOverlay = function(body) {
     var accessory = this;
     accessory.log("Setting new overlay");
-    
+    var lastToken = accessory.storage.getItem('Tado_Token');
     var options = {
         host: 'my.tado.com',
         path: '/api/v2/homes/' + accessory.homeID + '/zones/' + accessory.zone + '/overlay?username=' + accessory.username + '&password=' + accessory.password,
         method: body == null ? 'DELETE' : 'PUT',
         headers: {
-            Authorization: 'Bearer ' + accessory.token
+            Authorization: 'Bearer ' + lastToken
         }
     };
     
