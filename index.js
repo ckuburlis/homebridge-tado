@@ -55,7 +55,7 @@ function TadoAccessory(log, config) {
             response.on('end', function() {
                 var tokenObj = JSON.parse(strData);
                 this.token = tokenObj.access_token;
-                this.log("New Token is " + this.token);
+                accessory.log("New Token is " + this.token);
             });
         }).end();
     setInterval(function(){
