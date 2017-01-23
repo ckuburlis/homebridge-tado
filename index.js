@@ -39,6 +39,27 @@ function TadoAccessory(log, config) {
         this.storage.setItem(this.name + "_lastTemp", 25);
         this.lastTemp = 25;
     }
+   
+    
+    //Get Token
+     var tokenOptions = {
+            host: 'my.tado.com',
+            path: '/oauth/token?client_id=tado-webapp&grant_type=password&password=' + this.password + '&scope=home.user&username=' + this.username,
+            method: 'POST'
+    };
+    setInterval(function(){
+        https.request(tokenOptions, function(response){
+            var strData = '';
+            response.on('data', function(chunk) {
+                strData += chunk;
+            });
+            response.on('end', function() {
+                var tokenObj = JSON.parse(strData);
+                this.token = tokenObj.access_token;
+                this.log("New Token is " + this.token);
+            }
+        }).end();
+    }, 500000)
 }
 
 TadoAccessory.prototype.getServices = function() {
@@ -392,29 +413,13 @@ TadoAccessory.prototype._getCurrentStateResponse = function(callback) {
     
     var options = {
         host: 'my.tado.com',
-        path: '/oauth/token?client_id=tado-webapp&grant_type=password&password=' + accessory.password + '&scope=home.user&username=' + accessory.username,
-        method: 'POST'
+        path: '/api/v2/homes/' + accessory.homeID + '/zones/' + accessory.zone + '/state',
+        headers: {
+            Authorization: 'Bearer ' + accessory.token
+        }
     };
     
-    https.request(options, function(response){
-        var str2 = '';
-        response.on('data', function(chunk) {
-            str2 += chunk;
-        });
-        response.on('end', function() {
-            var obj2 = JSON.parse(str2);
-            var token = obj2.access_token;
-            var options2 = {
-                host: 'my.tado.com',
-                path: '/api/v2/homes/' + accessory.homeID + '/zones/' + accessory.zone + '/state',
-                method: 'GET',
-                headers: {
-                    Authorization: 'Bearer ' + token
-                }
-            };
-            https.request(options2, callback).end();
-        });
-    }).end();
+    https.request(options, callback).end();
 }
 
 TadoAccessory.prototype._setOverlay = function(body) {
@@ -424,7 +429,10 @@ TadoAccessory.prototype._setOverlay = function(body) {
     var options = {
         host: 'my.tado.com',
         path: '/api/v2/homes/' + accessory.homeID + '/zones/' + accessory.zone + '/overlay?username=' + accessory.username + '&password=' + accessory.password,
-        method: body == null ? 'DELETE' : 'PUT'
+        method: body == null ? 'DELETE' : 'PUT',
+        headers: {
+            Authorization: 'Bearer ' + accessory.token
+        }
     };
     
     if (body != null) {
