@@ -291,9 +291,10 @@ TadoAccessory.prototype.getCurrentTemperature = function(callback) {
 
         //the whole response has been recieved, so we just print it out here
         response.on('end', function() {
+            accessory.log(str)
             var obj = JSON.parse(str);
-            
-
+            accessory.log(obj)
+    
             if (accessory.useFahrenheit) {
                 accessory.log("Room temperature is " + obj.sensorDataPoints.insideTemperature.fahrenheit + "ºF");
                 callback(null, obj.sensorDataPoints.insideTemperature.fahrenheit);
@@ -318,8 +319,9 @@ TadoAccessory.prototype.getTargetTemperature = function(callback) {
 
         //the whole response has been recieved, so we just print it out here
         response.on('end', function() {
+            accessory.log(str)
             var obj = JSON.parse(str);
-            
+            accessory.log(obj)
             if (obj.setting.temperature == null) {
                     accessory.log("Target temperature is unavailable");
                     callback(null, null);
