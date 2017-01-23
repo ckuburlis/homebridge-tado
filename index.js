@@ -48,29 +48,20 @@ function TadoAccessory(log, config) {
             method: 'POST'
     };
     https.request(tokenOptions, function(response){
-            var strData = '';
-            response.on('data', function(chunk) {
-                strData += chunk;
-            });
-            response.on('end', function() {
-                var tokenObj = JSON.parse(strData);
-                this.token = tokenObj.access_token;
-                accessory.log("New Token is " + this.token);
-            });
-        }).end();
-    setInterval(function(){
-        https.request(tokenOptions, function(response){
-            var strData = '';
-            response.on('data', function(chunk) {
-                strData += chunk;
-            });
-            response.on('end', function() {
-                var tokenObj = JSON.parse(strData);
-                this.token = tokenObj.access_token;
-                accessory.log("New Token is " + this.token);
-            });
-        }).end();
-    }, 500000)
+        setInterval(function(response){
+            https.request(tokenOptions, function(response){
+                var strData = '';
+                response.on('data', function(chunk) {
+                    strData += chunk;
+                });
+                response.on('end', function() {
+                    var tokenObj = JSON.parse(strData);
+                    this.token = tokenObj.access_token;
+                    accessory.log("New Token is " + this.token);
+                });
+            }).end();
+        }, 500000)
+    }).end();
 }
 
 TadoAccessory.prototype.getServices = function() {
@@ -429,7 +420,7 @@ TadoAccessory.prototype._getCurrentStateResponse = function(callback) {
             Authorization: 'Bearer ' + accessory.token
         }
     };
-    accessory.log("check header:   " + JSON.parse(options.headers))
+    accessory.log("check header:   " + options.headers.Authorization)
     https.request(options, callback).end();
 }
 
