@@ -55,7 +55,7 @@ function TadoAccessory(log, config) {
         response.on('end', function() {
             var tokenObj = JSON.parse(strData);
             var lastToken = accessory.storage.getItem('Tado_Token');
-            if (lastToken !== tokenObj.access_token) {
+            if (lastToken !== tokenObj.access_token && tokenObj.access_token !== undefined) {
                 accessory.storage.setItem('Tado_Token', tokenObj.access_token);
                 accessory.log("New Token is " + accessory.token);
             }
@@ -69,7 +69,7 @@ function TadoAccessory(log, config) {
                 response.on('end', function() {
                     var tokenObj = JSON.parse(strData);
                     var lastToken = accessory.storage.getItem('Tado_Token');
-                    if (lastToken !== tokenObj.access_token) {
+                    if (lastToken !== tokenObj.access_token && tokenObj.access_token !== undefined) {
                         accessory.storage.setItem('Tado_Token', tokenObj.access_token);
                         accessory.log("New Token is " + accessory.token);
                     }
