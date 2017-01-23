@@ -20,7 +20,7 @@ Complies with ```Service.Thermostat```
 {
   "accessory": "TADO",
   "name": "Tado",
-  "homeID": "homeID",
+  "homeID": 12345,
   "maxValue": 31,
   "minValue": 16,
   "zone": 1,
