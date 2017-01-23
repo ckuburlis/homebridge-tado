@@ -392,16 +392,9 @@ TadoAccessory.prototype._getCurrentStateResponse = function(callback) {
     
     var options = {
         host: 'my.tado.com',
-        path: '/oauth/token/',
+        path: '/oauth/token?client_id=tado-webapp&grant_type=password&password=' + accessory.password + '&scope=home.user&username=' + accessory.username,
         method: 'POST'
     };
-    var authData = {
-        client_id: 'tado-webap',
-        grant_type: 'password',
-        scope: 'home.user',
-        username: accessory.username,
-        password: accessory.password
-    }
     
     https.request(options, function(response){
         var str2 = '';
@@ -421,7 +414,7 @@ TadoAccessory.prototype._getCurrentStateResponse = function(callback) {
             };
             https.request(options2, callback).end();
         });
-    }).write(authData).end();
+    }).end();
 }
 
 TadoAccessory.prototype._setOverlay = function(body) {
