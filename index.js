@@ -244,6 +244,7 @@ TadoAccessory.prototype.getTargetHeatingCoolingState = function(callback) {
 
 TadoAccessory.prototype.setTargetHeatingCoolingState = function(state, callback) {
     var accessory = this;
+    accessory.lastTemp = accessory.storage.getItem(accessory.name + "_lastTemp");
     accessory.lastMode = accessory.storage.getItem(accessory.name);
     if (state == Characteristic.TargetHeatingCoolingState.OFF) {
         accessory.log("Set target state to off");
@@ -347,7 +348,7 @@ TadoAccessory.prototype.getCurrentTemperature = function(callback) {
 
 TadoAccessory.prototype.getTargetTemperature = function(callback) {
     var accessory = this;
-
+    accessory.lastMode = accessory.storage.getItem(accessory.name);
     accessory._getCurrentStateResponse(function(response) {
         var str = '';
 
@@ -381,7 +382,7 @@ TadoAccessory.prototype.getTargetTemperature = function(callback) {
 
 TadoAccessory.prototype.setTargetTemperature = function(temp, callback) {
     var accessory = this;
-    accessory.lastTemp = accessory.storage.getItem(accessory.name + "_lastTemp");
+
     if (temp !== null) {
         accessory.log("Set target temperature to " + temp + "º");
         accessory.storage.setItem(accessory.name + "_lastTemp", temp);
