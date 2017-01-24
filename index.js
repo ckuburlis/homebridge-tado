@@ -386,13 +386,14 @@ TadoAccessory.prototype.setTargetTemperature = function(temp, callback) {
         accessory.log("Set target temperature to " + temp + "º");
         accessory.storage.setItem(accessory.name + "_lastTemp", temp);
         accessory.log("last Mode: " + accessory.lastMode);
+		accessory.lastTemp = temp;
         switch (accessory.lastMode) {
             case "COOL":
                 accessory._setTargetCoolingOverlay(temp);
                 break;
 
             case "HEAT":
-                accessory._setTargetHeatingOverlay(temp);
+                accessory._setTargetHeatingOverlay(temp);                
                 break;
         }
     }
