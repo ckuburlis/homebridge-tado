@@ -348,7 +348,7 @@ TadoAccessory.prototype.getCurrentTemperature = function(callback) {
 
 TadoAccessory.prototype.getTargetTemperature = function(callback) {
     var accessory = this;
-    accessory.lastMode = accessory.storage.getItem(accessory.name);
+
     accessory._getCurrentStateResponse(function(response) {
         var str = '';
 
@@ -382,7 +382,7 @@ TadoAccessory.prototype.getTargetTemperature = function(callback) {
 
 TadoAccessory.prototype.setTargetTemperature = function(temp, callback) {
     var accessory = this;
-
+    accessory.lastMode = accessory.storage.getItem(accessory.name);
     if (temp !== null) {
         accessory.log("Set target temperature to " + temp + "º");
         accessory.storage.setItem(accessory.name + "_lastTemp", temp);
@@ -449,7 +449,7 @@ TadoAccessory.prototype._setOverlay = function(body) {
     var options = {
         host: 'my.tado.com',
         path: '/api/v2/homes/' + accessory.homeID + '/zones/' + accessory.zone + '/overlay?username=' + accessory.username + '&password=' + accessory.password,
-        method: body == null ? 'DELETE' : 'PUT',
+        method: body == null ? 'DELETE' : 'GET',
         headers: {
             Authorization: 'Bearer ' + lastToken
         }
