@@ -263,6 +263,7 @@ TadoAccessory.prototype.setTargetHeatingCoolingState = function(state, callback)
     else if (state == Characteristic.TargetHeatingCoolingState.HEAT) {
         accessory.log("Force heating");
         accessory.storage.setItem(accessory.name, "HEAT");
+        accessory.storage.lastMode = "HEAT";
         accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.HEAT);
         accessory._setTargetHeatingOverlay(accessory.lastTemp);
     }
@@ -270,7 +271,8 @@ TadoAccessory.prototype.setTargetHeatingCoolingState = function(state, callback)
     else if (state == Characteristic.TargetHeatingCoolingState.COOL) {
             accessory.log("Force cooling");
             accessory.storage.setItem(accessory.name, "COOL");
-            accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.COOL);;
+			accessory.storage.lastMode = "COOL";
+            accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.COOL);
             accessory._setTargetCoolingOverlay(accessory.lastTemp);
     }
 
@@ -308,7 +310,7 @@ TadoAccessory.prototype.setTargetHeatingCoolingState = function(state, callback)
             case "COOL":
                 accessory.log("Force cooling");
                 accessory.storage.setItem(accessory.name, "COOL");
-                accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.COOL);;
+                accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.COOL);
                 accessory._setTargetCoolingOverlay(accessory.lastTemp);
                 break;
         }
