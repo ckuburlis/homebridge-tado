@@ -449,7 +449,7 @@ TadoAccessory.prototype._setOverlay = function(body) {
     var options = {
         host: 'my.tado.com',
         path: '/api/v2/homes/' + accessory.homeID + '/zones/' + accessory.zone + '/overlay?username=' + accessory.username + '&password=' + accessory.password,
-        method: body == null ? 'DELETE' : 'GET',
+        method: body == null ? 'DELETE' : 'PUT',
         headers: {
             Authorization: 'Bearer ' + lastToken
         }
