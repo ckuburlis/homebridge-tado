@@ -265,6 +265,7 @@ TadoAccessory.prototype.setTargetHeatingCoolingState = function(state, callback)
     else if (state == Characteristic.TargetHeatingCoolingState.HEAT) {
         accessory.log("Force heating");
         accessory.storage.setItem(accessory.name, "HEAT");
+        accessory.lastMode = "HEAT";
         accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.HEAT);
         accessory._setTargetHeatingOverlay(accessory.lastTemp);
     }
@@ -272,7 +273,8 @@ TadoAccessory.prototype.setTargetHeatingCoolingState = function(state, callback)
     else if (state == Characteristic.TargetHeatingCoolingState.COOL) {
             accessory.log("Force cooling");
             accessory.storage.setItem(accessory.name, "COOL");
-            accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.COOL);;
+			accessory.lastMode = "COOL";
+            accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.COOL);
             accessory._setTargetCoolingOverlay(accessory.lastTemp);
     }
 
@@ -310,7 +312,7 @@ TadoAccessory.prototype.setTargetHeatingCoolingState = function(state, callback)
             case "COOL":
                 accessory.log("Force cooling");
                 accessory.storage.setItem(accessory.name, "COOL");
-                accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.COOL);;
+                accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.COOL);
                 accessory._setTargetCoolingOverlay(accessory.lastTemp);
                 break;
         }
@@ -387,13 +389,14 @@ TadoAccessory.prototype.setTargetTemperature = function(temp, callback) {
         accessory.log("Set target temperature to " + temp + "º");
         accessory.storage.setItem(accessory.name + "_lastTemp", temp);
         accessory.log("last Mode: " + accessory.lastMode);
+		accessory.lastTemp = temp;
         switch (accessory.lastMode) {
             case "COOL":
                 accessory._setTargetCoolingOverlay(temp);
                 break;
 
             case "HEAT":
-                accessory._setTargetHeatingOverlay(temp);
+                accessory._setTargetHeatingOverlay(temp);                
                 break;
         }
     }
