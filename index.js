@@ -57,7 +57,6 @@ function TadoAccessory(log, config) {
             var lastToken = accessory.storage.getItem('Tado_Token');
             if (lastToken !== tokenObj.access_token && tokenObj.access_token !== undefined) {
                 accessory.storage.setItem('Tado_Token', tokenObj.access_token);
-                accessory.log("New Token is " + tokenObj.access_token);
             }
         });
         setInterval(function(response){
@@ -71,7 +70,6 @@ function TadoAccessory(log, config) {
                     var lastToken = accessory.storage.getItem('Tado_Token');
                     if (lastToken !== tokenObj.access_token && tokenObj.access_token !== undefined) {
                         accessory.storage.setItem('Tado_Token', tokenObj.access_token);
-                        accessory.log("New Token is " + tokenObj.access_token);
                     }
                 });
             }).end();
@@ -386,7 +384,6 @@ TadoAccessory.prototype.setTargetTemperature = function(temp, callback) {
     if (temp !== null) {
         accessory.log("Set target temperature to " + temp + "º");
         accessory.storage.setItem(accessory.name + "_lastTemp", temp);
-        accessory.log("last Mode: " + accessory.lastMode);
         switch (accessory.lastMode) {
             case "COOL":
                 accessory._setTargetCoolingOverlay(temp);
@@ -438,7 +435,6 @@ TadoAccessory.prototype._getCurrentStateResponse = function(callback) {
             Authorization: 'Bearer ' + lastToken
         }
     };
-    accessory.log("check header:   " + options.headers.Authorization)
     https.request(options, callback).end();
 }
 
@@ -460,8 +456,7 @@ TadoAccessory.prototype._setOverlay = function(body) {
         accessory.log("zone: " + accessory.zone + ",  body: " + body);
     }
     
-    https.request(options, null).end(body);
-    
+    https.request(options, null).end(body);    
     if (body == null) {
         accessory.service.setCharacteristic(Characteristic.TargetTemperature, null); 
     }
