@@ -166,30 +166,27 @@ TadoAccessory.prototype.getCurrentHeatingCoolingState = function(callback) {
                     accessory.log("Target temperature is " + obj.setting.temperature.celsius + "ºC");
                 }
             }
-
             if (JSON.stringify(obj.setting.power).match("OFF")) {
                 accessory.log("Current operating state is OFF");
                 callback(null, Characteristic.CurrentHeatingCoolingState.OFF);
-            } else {
-                accessory.log("Current operating state is " + obj.setting.mode);
-                 if (JSON.stringify(obj.overlay).match(null)) {
+            }
+            else if (JSON.stringify(obj.overlay).match(null)) {
                     accessory.log("current operating state is AUTO");
                     callback(null, Characteristic.CurrentHeatingCoolingState.AUTO);
-                 }  
-                else {
+
+            } 
+            else {
                     if (JSON.stringify(obj.setting.mode).match("HEAT")) {
                         if (accessory.lastMode !== "HEAT") {
                             accessory.storage.setItem(accessory.name, "HEAT");
                         };
-                        callback(null, Characteristic.CurrentHeatingCoolingState.HEAT); 
-                    } else if (JSON.stringify(obj.setting.mode).match("COOL")){
+                        callback(null, Characteristic.CurrentHeatingCoolingState.HEAT);
+                    } else if (JSON.stringify(obj.setting.mode).match("COOL")) {
                         if (accessory.lastMode !== "COOL") {
-                            accessory.storage.setItem(accessory.name, "COOL");
+                            accessory.storage.setItem(accessory.name, "COOL");                            
                         };
                         callback(null, Characteristic.CurrentHeatingCoolingState.COOL);
                     }
-                }
-               
             }
         });
     });
@@ -358,9 +355,7 @@ TadoAccessory.prototype.getTargetTemperature = function(callback) {
 
         //the whole response has been recieved, so we just print it out here
         response.on('end', function() {
-            accessory.log(str)
             var obj = JSON.parse(str);
-            accessory.log(obj)
             if (obj.setting.temperature == null) {
                     accessory.log("Target temperature is unavailable");
                     callback(null, null);
