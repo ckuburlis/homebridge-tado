@@ -217,24 +217,24 @@ TadoAccessory.prototype.getTargetHeatingCoolingState = function(callback) {
 
             if (JSON.stringify(obj.setting.power).match("OFF")) {
                 accessory.log("Target operating state is OFF");
-                callback(null, Characteristic.TargetHeatingCoolingState.OFF);
+                callback(null, Characteristic.CurrentHeatingCoolingState.OFF);
             }
             else if (JSON.stringify(obj.overlay).match(null)) {
                     accessory.log("Target operating state is AUTO");
                     accessory.log("Target operating mode is " + obj.setting.mode);
                     if (JSON.stringify(obj.setting.mode).match("HEAT")) {
-                        callback(null, Characteristic.TargetHeatingCoolingState.HEAT);
+                        callback(null, Characteristic.CurrentHeatingCoolingState.HEAT);
                     } else if (JSON.stringify(obj.setting.mode).match("COOL")) {
-                        callback(null, Characteristic.TargetHeatingCoolingState.COOL);
+                        callback(null, Characteristic.CurrentHeatingCoolingState.COOL);
                     }
             } 
             else {
                     accessory.log("Target operating state is " + obj.setting.mode);
                     if (JSON.stringify(obj.setting.mode).match("HEAT")) {
-                        callback(null, Characteristic.TargetHeatingCoolingState.HEAT);
+                        callback(null, Characteristic.CurrentHeatingCoolingState.HEAT);
                     } 
                     else if (JSON.stringify(obj.setting.mode).match("COOL")) {
-                        callback(null, Characteristic.TargetHeatingCoolingState.COOL);
+                        callback(null, Characteristic.CurrentHeatingCoolingState.COOL);
                     }
             }
         });
