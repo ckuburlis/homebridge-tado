@@ -28,6 +28,7 @@ Complies with ```Service.Thermostat```
   "password": "XXXXX",
   "useFanSpeed": "AUTO",
   "useSwing": false,
+  "tadoMode": "MANUAL",
   "useFahrenheit": false
 }
 ]
@@ -46,6 +47,7 @@ Complies with ```Service.Thermostat```
 | `password`                       | your tado account password                              |     ✓    |      -    |
 | `useFanSpeed`                    | your AC settings on Tado app. can be "AUTO"/"LOW"/"MEDIUIM"/HIGH" or false for no fanspeed option         |         |      false    |
 | `useSwing`                       | your AC settings on Tado app. can be "ON"/"OFF" or false for no swing option  |          |     false    |
+| `tadoMode`                       | default mode for the commands to be sent with. can be "MANUAL" for manual control until ended by the user, or "TADO_MODE" for manual control until next schedule change in tado app .          |             |  "MANUAL" |
 | `useFahrenheit`                  | true for using Fahrenheit or false for Celsius          |     ✓    |      -    |
 
 ## Finding HomeID
