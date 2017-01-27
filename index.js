@@ -172,7 +172,7 @@ TadoAccessory.prototype.getCurrentHeatingCoolingState = function(callback) {
                 callback(null, Characteristic.CurrentHeatingCoolingState.OFF);
             } else {
                 accessory.log("Current operating state is " + obj.setting.mode);
-                 if (JSON.stringify(obj.overlay) == null) {
+                 if (JSON.stringify(obj.overlay).match(null)) {
                     accessory.log("current operating state is AUTO");
                     callback(null, Characteristic.CurrentHeatingCoolingState.AUTO);
                  }  
@@ -218,7 +218,7 @@ TadoAccessory.prototype.getTargetHeatingCoolingState = function(callback) {
                 }
             }
 
-            if (JSON.stringify(obj.overlay) == null) {
+            if (JSON.stringify(obj.overlay).match(null)) {
                 accessory.log("Target operating state is AUTO");
                 accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.AUTO);
                 callback(null, Characteristic.CurrentHeatingCoolingState.AUTO);
@@ -330,10 +330,7 @@ TadoAccessory.prototype.getCurrentTemperature = function(callback) {
 
         //the whole response has been recieved, so we just print it out here
         response.on('end', function() {
-            accessory.log(str)
             var obj = JSON.parse(str);
-            accessory.log(obj)
-    
             if (accessory.useFahrenheit) {
                 accessory.log("Room temperature is " + obj.sensorDataPoints.insideTemperature.fahrenheit + "ºF");
                 callback(null, obj.sensorDataPoints.insideTemperature.fahrenheit);
