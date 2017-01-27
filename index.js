@@ -450,7 +450,10 @@ TadoAccessory.prototype._setOverlay = function(body) {
         accessory.log("zone: " + accessory.zone + ",  body: " + body);
     }
     
-    https.request(options, null).end(body);    
+    https.request(options, null).end(body);  
+    if (body == null) {		
+         accessory.service.getCharacteristic(Characteristic.TargetTemperature); 		
+     }
 }
 
 TadoAccessory.prototype._setTargetCoolingOverlay = function(temp) {
