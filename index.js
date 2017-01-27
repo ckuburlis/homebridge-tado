@@ -218,36 +218,27 @@ TadoAccessory.prototype.getTargetHeatingCoolingState = function(callback) {
                 }
             }
 
-            if (JSON.stringify(obj.overlay).match(null)) {
-                accessory.log("Target operating state is AUTO");
-                accessory.service.setCharacteristic(Characteristic.TargetHeatingCoolingState, Characteristic.TargetHeatingCoolingState.AUTO);
-                if (JSON.stringify(obj.setting.power).match("OFF")) {
-                    accessory.log("Target operating state is OFF");
-                    
-                    callback(null, Characteristic.TargetHeatingCoolingState.OFF);
-                } else {
-
-                    accessory.log("Target operating state is " + obj.setting.mode);
+            if (JSON.stringify(obj.setting.power).match("OFF")) {
+                accessory.log("Target operating state is OFF");
+                callback(null, Characteristic.TargetHeatingCoolingState.OFF);
+            }
+            else if (JSON.stringify(obj.overlay).match(null)) {
+                    accessory.log("Target operating state is AUTO");
+                    accessory.log("Target operating mode is " + obj.setting.mode);
                     if (JSON.stringify(obj.setting.mode).match("HEAT")) {
                         callback(null, Characteristic.TargetHeatingCoolingState.HEAT);
                     } else if (JSON.stringify(obj.setting.mode).match("COOL")) {
                         callback(null, Characteristic.TargetHeatingCoolingState.COOL);
                     }
-                }
-            } else {
-                if (JSON.stringify(obj.setting.power).match("OFF")) {
-                    accessory.log("Target operating state is OFF");
-                    
-                    callback(null, Characteristic.TargetHeatingCoolingState.OFF);
-                } else {
-
+            } 
+            else {
                     accessory.log("Target operating state is " + obj.setting.mode);
                     if (JSON.stringify(obj.setting.mode).match("HEAT")) {
                         callback(null, Characteristic.TargetHeatingCoolingState.HEAT);
-                    } else if (JSON.stringify(obj.setting.mode).match("COOL")) {
+                    } 
+                    else if (JSON.stringify(obj.setting.mode).match("COOL")) {
                         callback(null, Characteristic.TargetHeatingCoolingState.COOL);
                     }
-                }
             }
         });
     });      
