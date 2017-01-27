@@ -250,13 +250,13 @@ TadoAccessory.prototype.setTargetHeatingCoolingState = function(state, callback)
 
         var body = {
             "termination": {
-                "type": "MANUAL"
             },
             "setting": {
                 "power": "OFF",
                 "type": "AIR_CONDITIONING"
             }
         };
+        body.termination.type = accessory.tadoMode
         accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.OFF);        
         accessory._setOverlay(body);
     }  
@@ -286,13 +286,13 @@ TadoAccessory.prototype.setTargetHeatingCoolingState = function(state, callback)
 
         var body = {
             "termination": {
-                "type": "MANUAL"
             },
             "setting": {
                 "power": "OFF",
                 "type": "AIR_CONDITIONING"
             }
         };
+        body.termination.type = accessory.tadoMode
         accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.OFF);        
         accessory._setOverlay(body);
     }
