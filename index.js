@@ -451,9 +451,6 @@ TadoAccessory.prototype._setOverlay = function(body) {
     }
     
     https.request(options, null).end(body);  
-    if (body == null) {		
-         accessory.service.getCharacteristic(Characteristic.TargetTemperature); 		
-     }
 }
 
 TadoAccessory.prototype._setTargetCoolingOverlay = function(temp) {
