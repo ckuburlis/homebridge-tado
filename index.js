@@ -329,13 +329,18 @@ TadoAccessory.prototype.getCurrentTemperature = function(callback) {
         //the whole response has been recieved, so we just print it out here
         response.on('end', function() {
             var obj = JSON.parse(str);
-            if (accessory.useFahrenheit) {
-                accessory.log("Room temperature is " + obj.sensorDataPoints.insideTemperature.fahrenheit + "ºF");
-                callback(null, obj.sensorDataPoints.insideTemperature.fahrenheit);
+            if (obj.sensorDataPoints.insideTemperature) {
+                if (accessory.useFahrenheit) {
+                    accessory.log("Room temperature is " + obj.sensorDataPoints.insideTemperature.fahrenheit + "ºF");
+                    callback(null, obj.sensorDataPoints.insideTemperature.fahrenheit);
+                } else {
+                    accessory.log("Room temperature is " + obj.sensorDataPoints.insideTemperature.celsius + "ºC");
+                    callback(null, obj.sensorDataPoints.insideTemperature.celsius);
+                }
             } else {
-                accessory.log("Room temperature is " + obj.sensorDataPoints.insideTemperature.celsius + "ºC");
-                callback(null, obj.sensorDataPoints.insideTemperature.celsius);
+                accessory.log("Room temperature is Unavailable, try again later");
             }
+            
         });
     });
 }
