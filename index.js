@@ -29,7 +29,7 @@ function TadoAccessory(log, config) {
     this.useFanSpeed = config['useFanSpeed'] || false; // can get values: "LOW", "MIDDLE", "HIGH" or "AUTO" depend on your aircon
     this.tadoMode = config['tadoMode'] || "MANUAL";
     this.zoneMode = "UNKNOWN";
-    
+
     //Init storage
       this.storage.initSync({
         dir: HomebridgeAPI.user.persistPath()
@@ -40,8 +40,8 @@ function TadoAccessory(log, config) {
         this.storage.setItem(this.name + "_lastTemp", 25);
         this.lastTemp = 25;
     }
-   
-    
+
+
     //Get Token
      var tokenOptions = {
             host: 'my.tado.com',
@@ -97,7 +97,7 @@ TadoAccessory.prototype.getServices = function() {
         .setCharacteristic(Characteristic.SerialNumber, 'Tado Serial Number');
 
     this.service = new Service.Thermostat(this.name);
-        
+
     this.service.getCharacteristic(Characteristic.CurrentHeatingCoolingState)
         .on('get', this.getCurrentHeatingCoolingState.bind(this));
 
@@ -137,7 +137,7 @@ TadoAccessory.prototype.getServices = function() {
     this.service.getCharacteristic(Characteristic.On)
         .on('set', this.setTargetHeatingCoolingState.bind(this));
 
-    return [this.service];
+    return [informationService, this.service];
 }
 
 TadoAccessory.prototype.getCurrentHeatingCoolingState = function(callback) {
@@ -174,7 +174,7 @@ TadoAccessory.prototype.getCurrentHeatingCoolingState = function(callback) {
                     accessory.log("current operating state is AUTO");
                     callback(null, Characteristic.CurrentHeatingCoolingState.AUTO);
 
-            } 
+            }
             else {
                     if (JSON.stringify(obj.setting.mode).match("HEAT")) {
                         if (accessory.lastMode !== "HEAT") {
@@ -183,7 +183,7 @@ TadoAccessory.prototype.getCurrentHeatingCoolingState = function(callback) {
                         callback(null, Characteristic.CurrentHeatingCoolingState.HEAT);
                     } else if (JSON.stringify(obj.setting.mode).match("COOL")) {
                         if (accessory.lastMode !== "COOL") {
-                            accessory.storage.setItem(accessory.name, "COOL");                            
+                            accessory.storage.setItem(accessory.name, "COOL");
                         };
                         callback(null, Characteristic.CurrentHeatingCoolingState.COOL);
                     }
@@ -193,8 +193,8 @@ TadoAccessory.prototype.getCurrentHeatingCoolingState = function(callback) {
 }
 
 TadoAccessory.prototype.getTargetHeatingCoolingState = function(callback) {
-    var accessory = this;  
-   
+    var accessory = this;
+
     accessory._getCurrentStateResponse(function(response) {
         var str = '';
 
@@ -227,18 +227,18 @@ TadoAccessory.prototype.getTargetHeatingCoolingState = function(callback) {
                     } else if (JSON.stringify(obj.setting.mode).match("COOL")) {
                         callback(null, Characteristic.TargetHeatingCoolingState.COOL);
                     }
-            } 
+            }
             else {
                     accessory.log("Target operating state is " + obj.setting.mode);
                     if (JSON.stringify(obj.setting.mode).match("HEAT")) {
                         callback(null, Characteristic.TargetHeatingCoolingState.HEAT);
-                    } 
+                    }
                     else if (JSON.stringify(obj.setting.mode).match("COOL")) {
                         callback(null, Characteristic.TargetHeatingCoolingState.COOL);
                     }
             }
         });
-    });      
+    });
 }
 
 TadoAccessory.prototype.setTargetHeatingCoolingState = function(state, callback) {
@@ -257,10 +257,10 @@ TadoAccessory.prototype.setTargetHeatingCoolingState = function(state, callback)
             }
         };
         body.termination.type = accessory.tadoMode
-        accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.OFF);        
+        accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.OFF);
         accessory._setOverlay(body);
-    }  
-    
+    }
+
     else if (state == Characteristic.TargetHeatingCoolingState.HEAT) {
         accessory.log("Force heating");
         accessory.storage.setItem(accessory.name, "HEAT");
@@ -271,16 +271,16 @@ TadoAccessory.prototype.setTargetHeatingCoolingState = function(state, callback)
     else if (state == Characteristic.TargetHeatingCoolingState.COOL) {
             accessory.log("Force cooling");
             accessory.storage.setItem(accessory.name, "COOL");
-            
+
             accessory._setTargetCoolingOverlay(accessory.lastTemp);
     }
 
     else if (state == Characteristic.TargetHeatingCoolingState.AUTO) {
             accessory.log("Automatic control");
             accessory._setOverlay(null);
-            accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.AUTO);  
+            accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.AUTO);
     }
-            
+
     else if (!state) {
         accessory.log("Set target state to off");
 
@@ -293,10 +293,10 @@ TadoAccessory.prototype.setTargetHeatingCoolingState = function(state, callback)
             }
         };
         body.termination.type = accessory.tadoMode
-        accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.OFF);        
+        accessory.service.setCharacteristic(Characteristic.CurrentHeatingCoolingState, Characteristic.CurrentHeatingCoolingState.OFF);
         accessory._setOverlay(body);
     }
-            
+
      else {
         switch (accessory.lastMode) {
             case "HEAT":
@@ -444,13 +444,13 @@ TadoAccessory.prototype._setOverlay = function(body) {
             Authorization: 'Bearer ' + lastToken
         }
     };
-    
+
     if (body != null) {
         body = JSON.stringify(body);
         accessory.log("zone: " + accessory.zone + ",  body: " + body);
     }
-    
-    https.request(options, null).end(body);  
+
+    https.request(options, null).end(body);
 }
 
 TadoAccessory.prototype._setTargetCoolingOverlay = function(temp) {
@@ -463,7 +463,7 @@ TadoAccessory.prototype._setTargetCoolingOverlay = function(temp) {
             "type": "AIR_CONDITIONING",
             "mode": "COOL",
             "temperature": {}
-        } 
+        }
     };
     body.termination.type = this.tadoMode;
     if (this.useFahrenheit) {
@@ -493,7 +493,7 @@ TadoAccessory.prototype._setTargetHeatingOverlay = function(temp) {
             "temperature": {}
         }
     };
-    
+
     body.termination.type = this.tadoMode;
     if (this.useFahrenheit) {
         body.setting.temperature.fahrenheit = temp;
