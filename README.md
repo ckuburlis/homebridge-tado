@@ -1,3 +1,7 @@
+
+### This Plugin is not supported anymore, please use the plugin [homebridge-tado-ac](https://github.com/nitaybz/homebridge-tado-ac) by @nitaybz instead.
+
+
 homebridge-tado
 ==============
 
